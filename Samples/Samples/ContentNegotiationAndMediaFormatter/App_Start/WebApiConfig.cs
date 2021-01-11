@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ContentNegotiationAndMediaFormatter.Formatters;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http.Formatting;
@@ -11,7 +12,7 @@ namespace ContentNegotiationAndMediaFormatter
     {
         public CustomJsonFormatter()
         {
-            this.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+            this.SupportedMediaTypes.Add(new MediaTypeHeaderValue("text/html"));
         }
 
         public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
@@ -41,12 +42,16 @@ namespace ContentNegotiationAndMediaFormatter
             //config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
             //config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
 
+            //Removes XML formatter and serves only JSON
             //config.Formatters.Remove(config.Formatters.XmlFormatter);
 
             //Return JSON instead of xml when request is made from the browser
             //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
 
-            config.Formatters.Add(new CustomJsonFormatter());
+            //Adding custom JsonFormatter to the config.Formatters
+            //config.Formatters.Add(new CustomJsonFormatter());
+
+            config.Formatters.Add(new ProductCsvFormatter());
 
 
         }
