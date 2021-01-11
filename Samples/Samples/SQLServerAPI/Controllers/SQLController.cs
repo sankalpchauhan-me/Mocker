@@ -58,6 +58,30 @@ namespace SQLServerAPI.Controllers
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
         }
+
+        public HttpResponseMessage Delete(int id)
+        {
+            try
+            {
+                using (EmployeeDBEntities entities = new EmployeeDBEntities())
+                {
+                    var entity = entities.Employees.FirstOrDefault(e => e.ID == id);
+                    if (entity != null)
+                    {
+                        entities.Employees.Remove(entity);
+                        entities.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                    }
+                    else
+                    {
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Id: " + id + "Not Found");
+                    }
+                }
+            } catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+        }
     }
 
 }
