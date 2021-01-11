@@ -5,23 +5,36 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SQLServerAPI;
+using SQLServerAPI.Utils;
 using SQLService;
 
 namespace SQLServerAPI.Controllers
 {
     public class SQLController : ApiController
     {
-        public IEnumerable<Employee> Get()
+        public HttpResponseMessage Get(string gender = "All")
         {
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
             {
-                return entities.Employees.ToList();
+                switch (gender.ToLower())
+                {
+                    case "all":
+                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.ToList());
+                    case "male":
+                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.Where(e=>e.Gender=="male").ToList());
+                    case "female":
+                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.Where(e => e.Gender == "female").ToList());
+                    default:
+                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Query gender only accepts all, male and female and not " + gender);
+
+                }
+               
             }
 
         }
 
         [HttpGet]
-        public HttpResponseMessage Get(int id)
+        public HttpResponseMessage GetEmployees(int id)
         {
 
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
@@ -41,7 +54,7 @@ namespace SQLServerAPI.Controllers
         }
 
         [HttpPost]
-        public HttpResponseMessage Post([FromBody]Employee employee)
+        public HttpResponseMessage AddEmployee([FromBody]Employee employee)
         {
             try
             {
@@ -62,7 +75,7 @@ namespace SQLServerAPI.Controllers
         }
 
         [HttpDelete]
-        public HttpResponseMessage Delete(int id)
+        public HttpResponseMessage DeleteEmployee(int id)
         {
             try
             {
@@ -87,7 +100,7 @@ namespace SQLServerAPI.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage Put(int id, [FromBody] Employee employee)
+        public HttpResponseMessage UpdateEmployee(int id, [FromBody] Employee employee)
         {
             try
             {
