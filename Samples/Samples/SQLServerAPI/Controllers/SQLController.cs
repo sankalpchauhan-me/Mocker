@@ -100,7 +100,7 @@ namespace SQLServerAPI.Controllers
         }
 
         [HttpPut]
-        public HttpResponseMessage UpdateEmployee(int id, [FromBody] Employee employee)
+        public HttpResponseMessage UpdateEmployee([FromBody] int id, [FromUri] Employee employee)
         {
             try
             {
