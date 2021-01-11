@@ -20,6 +20,7 @@ namespace SQLServerAPI.Controllers
 
         }
 
+        [HttpGet]
         public HttpResponseMessage Get(int id)
         {
 
@@ -39,6 +40,7 @@ namespace SQLServerAPI.Controllers
 
         }
 
+        [HttpPost]
         public HttpResponseMessage Post([FromBody]Employee employee)
         {
             try
@@ -59,6 +61,7 @@ namespace SQLServerAPI.Controllers
             }
         }
 
+        [HttpDelete]
         public HttpResponseMessage Delete(int id)
         {
             try
@@ -74,10 +77,39 @@ namespace SQLServerAPI.Controllers
                     }
                     else
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Id: " + id + "Not Found");
+                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Id: " + id + " Not Found");
                     }
                 }
             } catch (Exception e)
+            {
+                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+            }
+        }
+
+        [HttpPut]
+        public HttpResponseMessage Put(int id, [FromBody] Employee employee)
+        {
+            try
+            {
+                using (EmployeeDBEntities entities = new EmployeeDBEntities())
+                {
+                    var entity = entities.Employees.FirstOrDefault(e => e.ID == id);
+                    if(entity != null)
+                    {
+                        entity.FirstName = employee.FirstName;
+                        entity.LastName = employee.LastName;
+                        entity.Salary = employee.Salary;
+                        entities.SaveChanges();
+                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                    }
+                    else
+                    {
+                        return Request.CreateResponse(HttpStatusCode.NotFound, "Id: "+id+" Does Not Exist");
+
+                    }
+                }
+            }
+            catch(Exception e)
             {
                 return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
             }
