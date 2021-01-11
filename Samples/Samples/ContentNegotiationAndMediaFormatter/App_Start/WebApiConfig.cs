@@ -1,12 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 using System.Web.Http;
 
 namespace ContentNegotiationAndMediaFormatter
 {
+    public class CustomJsonFormatter: JsonMediaTypeFormatter
+    {
+        public CustomJsonFormatter()
+        {
+            this.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+        }
+
+        public override void SetDefaultContentHeaders(Type type, HttpContentHeaders headers, MediaTypeHeaderValue mediaType)
+        {
+            base.SetDefaultContentHeaders(type, headers, mediaType);
+            headers.ContentType = new MediaTypeHeaderValue("application/json");
+        }
+    }
     public static class WebApiConfig
     {
+
+
         public static void Register(HttpConfiguration config)
         {
             // Web API configuration and services
@@ -21,8 +38,15 @@ namespace ContentNegotiationAndMediaFormatter
             );
 
             //Makes the json response properly indented
-            config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+            //config.Formatters.JsonFormatter.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+            //config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new Newtonsoft.Json.Serialization.CamelCasePropertyNamesContractResolver();
+
+            //config.Formatters.Remove(config.Formatters.XmlFormatter);
+
+            //Return JSON instead of xml when request is made from the browser
+            //config.Formatters.JsonFormatter.SupportedMediaTypes.Add(new System.Net.Http.Headers.MediaTypeHeaderValue("text/html"));
+
+            config.Formatters.Add(new CustomJsonFormatter());
 
 
         }

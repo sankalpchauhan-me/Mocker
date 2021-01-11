@@ -15,14 +15,14 @@ namespace ContentNegotiationAndMediaFormatter.Controllers
         {
 
             var strings = new string[] { "value1", "value2" };
-            IContentNegotiator negotiator = this.Configuration.Services.GetContentNegotiator();
-            ContentNegotiationResult result = negotiator.Negotiate(typeof(string), this.Request, this.Configuration.Formatters);
+            //IContentNegotiator negotiator = this.Configuration.Services.GetContentNegotiator();
+            //ContentNegotiationResult result = negotiator.Negotiate(typeof(string), this.Request, this.Configuration.Formatters);
 
-            if(result == null)
-            {
-                var response = new HttpResponseMessage(HttpStatusCode.NotAcceptable);
-                throw new HttpResponseException(response);
-            }
+            //if(result == null)
+            //{
+            //    var response = new HttpResponseMessage(HttpStatusCode.NotAcceptable);
+            //    throw new HttpResponseException(response);
+            //}
             return strings;
         }
 
