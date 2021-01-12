@@ -35,7 +35,7 @@ namespace SQLServerAPI.Controllers
 
         }
 
-        [Route("{id:int}")]
+        [Route("{id:int}", Name ="GetEmployeeById")]
         [HttpGet]
         public HttpResponseMessage GetEmployees(int id)
         {
@@ -68,7 +68,8 @@ namespace SQLServerAPI.Controllers
                     entities.SaveChanges();
 
                     var message = Request.CreateResponse(HttpStatusCode.Created, employee);
-                    message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString());
+                    //message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString());
+                    message.Headers.Location = new Uri(Url.Link("GetEmployeeById",  new {id = employee.ID }));
                     return message;
                 }
             }
