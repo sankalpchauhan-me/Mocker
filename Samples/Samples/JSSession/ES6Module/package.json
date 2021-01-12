@@ -1,0 +1,17 @@
+{
+  "name": "jssession",
+  "version": "1.0.0",
+  "description": "test",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon --experimental-modules index.mjs"
+  },
+  "author": "Sankalp",
+  "license": "ISC",
+  "devDependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}

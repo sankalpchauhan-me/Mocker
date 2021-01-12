@@ -10,8 +10,10 @@ using SQLService;
 
 namespace SQLServerAPI.Controllers
 {
+    [RoutePrefix("api/employees")]
     public class SQLController : ApiController
     {
+        [Route("")]
         public HttpResponseMessage Get(string gender = "All")
         {
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
@@ -33,6 +35,7 @@ namespace SQLServerAPI.Controllers
 
         }
 
+        [Route("{id:int}")]
         [HttpGet]
         public HttpResponseMessage GetEmployees(int id)
         {
@@ -53,6 +56,7 @@ namespace SQLServerAPI.Controllers
 
         }
 
+        [Route("add")]
         [HttpPost]
         public HttpResponseMessage AddEmployee([FromBody]Employee employee)
         {
@@ -74,6 +78,8 @@ namespace SQLServerAPI.Controllers
             }
         }
 
+
+        [Route("{id:int}")]
         [HttpDelete]
         public HttpResponseMessage DeleteEmployee(int id)
         {
@@ -99,8 +105,9 @@ namespace SQLServerAPI.Controllers
             }
         }
 
+        [Route("update/{id:int}")]
         [HttpPut]
-        public HttpResponseMessage UpdateEmployee([FromBody] int id, [FromUri] Employee employee)
+        public HttpResponseMessage UpdateEmployee(int id, [FromBody] Employee employee)
         {
             try
             {
