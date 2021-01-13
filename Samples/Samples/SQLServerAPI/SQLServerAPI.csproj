@@ -225,7 +225,6 @@
     <Compile Include="Controllers\EmployeeController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\SQLController.cs" />
-    <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="ActionResults\CustomActionResult.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

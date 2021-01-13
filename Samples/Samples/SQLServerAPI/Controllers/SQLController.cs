@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using System.Web.Http.ModelBinding;
 using SQLServerAPI;
 using SQLServerAPI.ActionResultCustom;
 using SQLServerAPI.Utils;
@@ -63,20 +64,28 @@ namespace SQLServerAPI.Controllers
         [HttpPost]
         public IHttpActionResult AddEmployee([FromBody]Employee employee)
         {
-            try
+            if (ModelState.IsValid)
             {
-                using (EmployeeDBEntities entities = new EmployeeDBEntities())
+                try
                 {
-                    entities.Employees.Add(employee);
-                    entities.SaveChanges();
-                    //var message = Request.CreateResponse(HttpStatusCode.Created, employee);
-                    //message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString());
-                    return Created(new Uri(Url.Link("GetEmployeeById", new { id = employee.ID })), employee);
+                    using (EmployeeDBEntities entities = new EmployeeDBEntities())
+                    {
+                        entities.Employees.Add(employee);
+                        entities.SaveChanges();
+                        //var message = Request.CreateResponse(HttpStatusCode.Created, employee);
+                        //message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString());
+                        return Created(new Uri(Url.Link("GetEmployeeById", new { id = employee.ID })), employee);
+                    }
+                }
+                catch (Exception e)
+                {
+                    return BadRequest("" + e);
                 }
             }
-            catch (Exception e)
+            else
             {
-                return BadRequest("" + e);
+                //var allErrors = ModelState.Values.SelectMany(v => v.Errors.Select(b => b.ErrorMessage));
+                return BadRequest(ModelState);
             }
         }
 
