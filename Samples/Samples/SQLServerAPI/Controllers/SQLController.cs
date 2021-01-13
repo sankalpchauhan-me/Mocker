@@ -14,20 +14,20 @@ namespace SQLServerAPI.Controllers
     public class SQLController : ApiController
     {
         [Route("")]
-        public HttpResponseMessage Get(string gender = "All")
+        public IHttpActionResult Get(string gender = "All")
         {
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
             {
                 switch (gender.ToLower())
                 {
                     case "all":
-                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.ToList());
+                        return Ok(entities.Employees.ToList());
                     case "male":
-                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.Where(e=>e.Gender=="male").ToList());
+                        return Ok(entities.Employees.Where(e => e.Gender == "male").ToList());
                     case "female":
-                        return Request.CreateResponse(HttpStatusCode.OK, entities.Employees.Where(e => e.Gender == "female").ToList());
+                        return Ok(entities.Employees.Where(e => e.Gender == "female").ToList());
                     default:
-                        return Request.CreateErrorResponse(HttpStatusCode.BadRequest, "Query gender only accepts all, male and female and not " + gender);
+                        return BadRequest("Query gender only accepts all, male and female and not " + gender);
 
                 }
                
@@ -37,7 +37,7 @@ namespace SQLServerAPI.Controllers
 
         [Route("{id:int}", Name ="GetEmployeeById")]
         [HttpGet]
-        public HttpResponseMessage GetEmployees(int id)
+        public IHttpActionResult GetEmployees(int id)
         {
 
             using (EmployeeDBEntities entities = new EmployeeDBEntities())
@@ -46,11 +46,12 @@ namespace SQLServerAPI.Controllers
 
                 if (entity != null)
                 {
-                    return Request.CreateResponse(HttpStatusCode.OK, entity);
+                    return Ok(entity);
                 }
                 else
                 {
-                    return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Id: " + id + " does not exist");
+                    return NotFound();
+                    //return Request.CreateErrorResponse(HttpStatusCode.NotFound, );
                 }
             }
 
@@ -58,7 +59,7 @@ namespace SQLServerAPI.Controllers
 
         [Route("add")]
         [HttpPost]
-        public HttpResponseMessage AddEmployee([FromBody]Employee employee)
+        public IHttpActionResult AddEmployee([FromBody]Employee employee)
         {
             try
             {
@@ -66,23 +67,21 @@ namespace SQLServerAPI.Controllers
                 {
                     entities.Employees.Add(employee);
                     entities.SaveChanges();
-
-                    var message = Request.CreateResponse(HttpStatusCode.Created, employee);
+                    //var message = Request.CreateResponse(HttpStatusCode.Created, employee);
                     //message.Headers.Location = new Uri(Request.RequestUri + employee.ID.ToString());
-                    message.Headers.Location = new Uri(Url.Link("GetEmployeeById",  new {id = employee.ID }));
-                    return message;
+                    return Created(new Uri(Url.Link("GetEmployeeById", new { id = employee.ID })), employee);
                 }
             }
             catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return BadRequest("" + e);
             }
         }
 
 
         [Route("{id:int}")]
         [HttpDelete]
-        public HttpResponseMessage DeleteEmployee(int id)
+        public IHttpActionResult DeleteEmployee(int id)
         {
             try
             {
@@ -93,22 +92,22 @@ namespace SQLServerAPI.Controllers
                     {
                         entities.Employees.Remove(entity);
                         entities.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        return Ok(entity);
                     }
                     else
                     {
-                        return Request.CreateErrorResponse(HttpStatusCode.NotFound, "Id: " + id + " Not Found");
+                        return NotFound();
                     }
                 }
             } catch (Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return BadRequest("" + e);
             }
         }
 
         [Route("update/{id:int}")]
         [HttpPut]
-        public HttpResponseMessage UpdateEmployee(int id, [FromBody] Employee employee)
+        public IHttpActionResult UpdateEmployee(int id, [FromBody] Employee employee)
         {
             try
             {
@@ -121,18 +120,18 @@ namespace SQLServerAPI.Controllers
                         entity.LastName = employee.LastName;
                         entity.Salary = employee.Salary;
                         entities.SaveChanges();
-                        return Request.CreateResponse(HttpStatusCode.OK, entity);
+                        return Ok(entity);
                     }
                     else
                     {
-                        return Request.CreateResponse(HttpStatusCode.NotFound, "Id: "+id+" Does Not Exist");
+                        return NotFound();
 
                     }
                 }
             }
             catch(Exception e)
             {
-                return Request.CreateErrorResponse(HttpStatusCode.BadRequest, e);
+                return BadRequest("" + e);
             }
         }
     }
