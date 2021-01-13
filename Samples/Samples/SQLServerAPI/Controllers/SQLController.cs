@@ -5,8 +5,10 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using SQLServerAPI;
+using SQLServerAPI.ActionResultCustom;
 using SQLServerAPI.Utils;
 using SQLService;
+
 
 namespace SQLServerAPI.Controllers
 {
@@ -133,6 +135,13 @@ namespace SQLServerAPI.Controllers
             {
                 return BadRequest("" + e);
             }
+        }
+
+        [Route("magic/{name:alpha}")]
+        [HttpGet]
+        public CustomActionResult GetSecret(string name)
+        {
+            return new CustomActionResult(name);
         }
     }
 
