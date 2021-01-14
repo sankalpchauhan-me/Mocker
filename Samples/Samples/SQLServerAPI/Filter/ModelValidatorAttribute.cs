@@ -18,5 +18,6 @@ namespace SQLServerAPI.Filter
                 actionContext.Response = actionContext.Request.CreateErrorResponse(HttpStatusCode.BadRequest, actionContext.ModelState);
             }
         }
+
     }
 }
