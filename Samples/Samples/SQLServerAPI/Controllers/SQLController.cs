@@ -1,8 +1,10 @@
 ﻿using SQLServerAPI.ActionResultCustom;
 using SQLServerAPI.Filter;
 using SQLServerAPI.Repository;
+using SQLServerAPI.Utils;
 using SQLService;
 using System;
+using System.Data.SqlClient;
 using System.Web.Http;
 
 
@@ -20,25 +22,25 @@ namespace SQLServerAPI.Controllers
         }
 
         [Route("")]
-        public IHttpActionResult Get(string gender = "All")
+        public IHttpActionResult Get(Gender gender = Gender.all)
         {
             try
             {
-                switch (gender.ToLower())
+                switch (gender)
                 {
-                    case "all":
+                    case Gender.all:
                         return Ok(_dbRepository.GetAll());
-                    case "male":
+                    case Gender.male:
                         return Ok(_dbRepository.GetByGender("male"));
-                    case "female":
+                    case Gender.female:
                         return Ok(_dbRepository.GetByGender("female"));
                     default:
                         return BadRequest("Query gender only accepts all, male and female and not " + gender);
                 }
             }
-            catch
+            catch (SqlException e)
             {
-                return BadRequest("" + e);
+                return InternalServerError(e);
             }
 
         }
@@ -55,9 +57,10 @@ namespace SQLServerAPI.Controllers
                     return Ok(entity);
                 else
                     return NotFound();
-            } catch(Exception e)
+            }
+            catch (SqlException e)
             {
-                return BadRequest("" + e);
+                return InternalServerError(e);
             }
 
         }
@@ -72,9 +75,9 @@ namespace SQLServerAPI.Controllers
                 _dbRepository.Save();
                 return Created(new Uri(Url.Link("GetEmployeeById", new { id = employee.ID })), employee);
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
-                return BadRequest("" + e);
+                return InternalServerError(e);
             }
         }
 
@@ -85,6 +88,7 @@ namespace SQLServerAPI.Controllers
         {
             try
             {
+                //TODO: Soft Delete
                 Employee entity = _dbRepository.Delete(id);
                 if (entity != null)
                 {
@@ -94,9 +98,9 @@ namespace SQLServerAPI.Controllers
                 else
                     return NotFound();
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
-                return BadRequest("" + e);
+                return InternalServerError(e);
             }
         }
 
@@ -107,6 +111,7 @@ namespace SQLServerAPI.Controllers
             try
             {
                 employee.ID = id;
+                //TODO: Soft Update
                 Employee entity = _dbRepository.Update(employee);
                 if (entity != null)
                 {
@@ -116,9 +121,9 @@ namespace SQLServerAPI.Controllers
                 else
                     return NotFound();
             }
-            catch (Exception e)
+            catch (SqlException e)
             {
-                return BadRequest("" + e);
+                return InternalServerError(e);
             }
         }
 
