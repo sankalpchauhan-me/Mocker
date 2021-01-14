@@ -1,10 +1,9 @@
-﻿using System;
-using System.Linq;
-using System.Web.Http;
-using SQLServerAPI.ActionResultCustom;
+﻿using SQLServerAPI.ActionResultCustom;
 using SQLServerAPI.Filter;
 using SQLServerAPI.Repository;
 using SQLService;
+using System;
+using System.Web.Http;
 
 
 namespace SQLServerAPI.Controllers
@@ -16,43 +15,56 @@ namespace SQLServerAPI.Controllers
         private IDBRepository _dbRepository;
 
         public SQLController()
-        {   
+        {
             _dbRepository = new DBRepository();
         }
 
         [Route("")]
         public IHttpActionResult Get(string gender = "All")
         {
+            try
+            {
                 switch (gender.ToLower())
                 {
                     case "all":
                         return Ok(_dbRepository.GetAll());
                     case "male":
-                        return Ok(_dbRepository.GetByGender(gender));
+                        return Ok(_dbRepository.GetByGender("male"));
                     case "female":
-                        return Ok(_dbRepository.GetByGender(gender));
+                        return Ok(_dbRepository.GetByGender("female"));
                     default:
                         return BadRequest("Query gender only accepts all, male and female and not " + gender);
                 }
-               
+            }
+            catch
+            {
+                return BadRequest("" + e);
             }
 
-        [Route("{id:int}", Name ="GetEmployeeById")]
+        }
+
+        [Route("{id:int}", Name = "GetEmployeeById")]
         [HttpGet]
         public IHttpActionResult GetEmployees(int id)
         {
-            var entity = _dbRepository.GetById(id);
-            //return entity != null ? Ok(entity) : NotFound();
-            if (entity != null)
-                return Ok(entity);
-            else
-                return NotFound();
+            try
+            {
+                var entity = _dbRepository.GetById(id);
+                //return entity != null ? Ok(entity) : NotFound();
+                if (entity != null)
+                    return Ok(entity);
+                else
+                    return NotFound();
+            } catch(Exception e)
+            {
+                return BadRequest("" + e);
+            }
 
         }
 
         [Route("add")]
         [HttpPost]
-        public IHttpActionResult AddEmployee([FromBody]Employee employee)
+        public IHttpActionResult AddEmployee([FromBody] Employee employee)
         {
             try
             {
@@ -81,7 +93,8 @@ namespace SQLServerAPI.Controllers
                 }
                 else
                     return NotFound();
-            } catch (Exception e)
+            }
+            catch (Exception e)
             {
                 return BadRequest("" + e);
             }
@@ -93,6 +106,7 @@ namespace SQLServerAPI.Controllers
         {
             try
             {
+                employee.ID = id;
                 Employee entity = _dbRepository.Update(employee);
                 if (entity != null)
                 {
@@ -102,7 +116,7 @@ namespace SQLServerAPI.Controllers
                 else
                     return NotFound();
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 return BadRequest("" + e);
             }

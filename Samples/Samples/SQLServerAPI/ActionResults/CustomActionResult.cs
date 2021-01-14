@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
+﻿using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using System.Web;
 using System.Web.Http;
 using System.Web.Http.Hosting;
 
@@ -27,7 +23,7 @@ namespace SQLServerAPI.ActionResultCustom
         {
             HttpRequestMessage request = new HttpRequestMessage();
             request.Properties.Add(HttpPropertyKeys.HttpConfigurationKey, new HttpConfiguration());
-            HttpResponseMessage message = request.CreateResponse((HttpStatusCode)222, "You found the secret link "+ name);
+            HttpResponseMessage message = request.CreateResponse((HttpStatusCode)222, "You found the secret link " + name);
             return message;
         }
     }
