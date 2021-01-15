@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SQLService", "SQLService\SQ
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentNegotiationAndMediaFormatter", "ContentNegotiationAndMediaFormatter\ContentNegotiationAndMediaFormatter.csproj", "{8AE79648-7F15-44CB-BE48-CBAEE7D5CD5B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework Demo", "EntityFramework Demo\EntityFramework Demo.csproj", "{AF91A452-0FFB-4114-BA10-B874317FC6B5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{8AE79648-7F15-44CB-BE48-CBAEE7D5CD5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8AE79648-7F15-44CB-BE48-CBAEE7D5CD5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8AE79648-7F15-44CB-BE48-CBAEE7D5CD5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

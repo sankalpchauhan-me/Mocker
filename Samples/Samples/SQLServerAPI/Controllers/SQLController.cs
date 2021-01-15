@@ -52,7 +52,6 @@ namespace SQLServerAPI.Controllers
             try
             {
                 var entity = _dbRepository.GetById(id);
-                //return entity != null ? Ok(entity) : NotFound();
                 if (entity != null)
                     return Ok(entity);
                 else
