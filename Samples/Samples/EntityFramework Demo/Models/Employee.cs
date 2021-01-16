@@ -1,14 +1,21 @@
-﻿namespace EntityFramework_Demo.Models
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+
+namespace EntityFramework_Demo.Models
 {
     public class Employee
     {
-        public int Id { get; set; }
+        [Key]
+        public int EmpId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string Gender { get; set; }
-        public string Salary { get; set; }
+        public int Salary { get; set; }
+        public string JobTitle { get; set; }
 
-        //public int DepartmentId { get; set; }
-        public Department Department { get; set; }
+        [ForeignKey("Department")]
+        public int DeptId { get; set; }
+        public virtual Department Department { get; set; }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using EntityFramework_Demo.Database;
+using EntityFramework_Demo.Models;
+using EntityFramework_Demo.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -24,7 +26,26 @@ namespace EntityFramework_Demo.Controllers
         {
             try
             {
-                return Ok(_repository.GetAllDepartment());
+                List<Department> fulldata = _repository.GetAllDepartment();
+                List<DepartmentViewModel> departmentViewModels = new List<DepartmentViewModel>();
+                foreach (Department d in fulldata) {
+                    DepartmentViewModel departmentViewModel = new DepartmentViewModel()
+                    {
+                        DeptId = d.DeptId,
+                        Name = d.Name,
+                        Location = d.Location,
+                    };
+                    List<EmpoyeeDBViewModel> empoyeeDBViewModels = new List<EmpoyeeDBViewModel>();
+                    foreach(Employee e in d.Employees)
+                    {
+                        EmpoyeeDBViewModel empoyeeDBViewModel = e;
+                        empoyeeDBViewModels.Add(e);
+                    }
+                    departmentViewModel.Employees = empoyeeDBViewModels;
+                    departmentViewModels.Add(departmentViewModel);
+                }
+                return Ok(departmentViewModels);
+
             } catch (SqlException e)
             {
                 return InternalServerError(e);

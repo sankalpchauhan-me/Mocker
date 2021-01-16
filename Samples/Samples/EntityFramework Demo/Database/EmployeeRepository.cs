@@ -1,6 +1,8 @@
 ﻿using EntityFramework_Demo.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Web;
 
 namespace EntityFramework_Demo.Database
 {
@@ -18,12 +20,10 @@ namespace EntityFramework_Demo.Database
             _context = context;
         }
 
-        public List<Department> GetAllDepartment()
-        {
+        public List<Department> GetAllDepartment() {
             return _context.Departments.Include("Employees").ToList();
         }
-        public List<Employee> GetAllEmployee()
-        {
+        public List<Employee> GetAllEmployee() {
             return _context.Employees.ToList();
         }
     }
