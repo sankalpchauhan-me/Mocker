@@ -21,7 +21,7 @@ namespace Mocker.ViewModels
             {
                 DevAppViewModel devAppViewModel = new DevAppViewModel();
                 devAppViewModel = d;
-                devApps.Add(d);
+                devApps.Add(devAppViewModel);
             }
             return new DeveloperViewModel
             {
