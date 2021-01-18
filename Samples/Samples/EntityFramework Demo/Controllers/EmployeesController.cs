@@ -11,7 +11,7 @@ using System.Web.Http;
 namespace EntityFramework_Demo.Controllers
 {
     [RoutePrefix("api/employees")]
-    public class EmployeesController :ApiController
+    public class EmployeesController : ApiController
     {
         private EmployeeRepository _repository;
 
@@ -19,7 +19,7 @@ namespace EntityFramework_Demo.Controllers
         {
             _repository = new EmployeeRepository();
         }
-        
+
         // GET: Departments
         [Route("")]
         public IHttpActionResult GetAllData()
@@ -28,7 +28,8 @@ namespace EntityFramework_Demo.Controllers
             {
                 List<Department> fulldata = _repository.GetAllDepartment();
                 List<DepartmentViewModel> departmentViewModels = new List<DepartmentViewModel>();
-                foreach (Department d in fulldata) {
+                foreach (Department d in fulldata)
+                {
                     DepartmentViewModel departmentViewModel = new DepartmentViewModel()
                     {
                         DeptId = d.DeptId,
@@ -36,7 +37,7 @@ namespace EntityFramework_Demo.Controllers
                         Location = d.Location,
                     };
                     List<EmpoyeeDBViewModel> empoyeeDBViewModels = new List<EmpoyeeDBViewModel>();
-                    foreach(Employee e in d.Employees)
+                    foreach (Employee e in d.Employees)
                     {
                         EmpoyeeDBViewModel empoyeeDBViewModel = e;
                         empoyeeDBViewModels.Add(e);
@@ -46,11 +47,47 @@ namespace EntityFramework_Demo.Controllers
                 }
                 return Ok(departmentViewModels);
 
-            } catch (SqlException e)
+            }
+            catch (SqlException e)
             {
                 return InternalServerError(e);
             }
         }
-        
+
+
+        [Route("add")]
+        [HttpPost]
+        public IHttpActionResult AddEmployee([FromBody] Employee employee)
+        {
+            try
+            {
+                _repository.InsertEmployee(employee);
+                return Created(new Uri(Url.Link("GetEmployeeById", new { id = employee.EmpId })), employee);
+            }
+            catch (SqlException e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
+        [Route("{id:int}", Name = "GetEmployeeById")]
+        [HttpGet]
+        public IHttpActionResult GetEmployees(int id)
+        {
+            try
+            {
+                var entity = _repository.GetEmployeeById(id);
+                if (entity != null)
+                    return Ok(entity);
+                else
+                    return NotFound();
+            }
+            catch (SqlException e)
+            {
+                return InternalServerError(e);
+            }
+
+        }
+
     }
 }
