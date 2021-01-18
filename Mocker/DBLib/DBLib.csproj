@@ -51,12 +51,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AppDBContext\SampleDataSeeder.cs" />
     <Compile Include="Class1.cs" />
+    <Compile Include="AppDBContext\MockDBContext.cs" />
+    <Compile Include="Models\AppEntity.cs" />
+    <Compile Include="Models\DevApp.cs" />
+    <Compile Include="Models\Developer.cs" />
+    <Compile Include="Models\EntityField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
