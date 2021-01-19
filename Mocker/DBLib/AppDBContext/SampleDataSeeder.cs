@@ -4,6 +4,9 @@ using System.Data.Entity;
 
 namespace DBLib.AppDBContext
 {
+    /// <summary>
+    /// Seeds sample data for testing in debug mode
+    /// </summary>
     public class SampleDataSeeder : DropCreateDatabaseIfModelChanges<MockDBContext>
     {
         protected override void Seed(MockDBContext context)

@@ -19,9 +19,7 @@ namespace Mocker.ViewModels
             List<DevAppViewModel> devApps = new List<DevAppViewModel>();
             foreach(DevApp d in v.DevApps)
             {
-                DevAppViewModel devAppViewModel = new DevAppViewModel();
-                devAppViewModel = d;
-                devApps.Add(devAppViewModel);
+                devApps.Add(d);
             }
             return new DeveloperViewModel
             {

@@ -31,8 +31,6 @@ namespace Mocker.Controllers
                 List<DeveloperViewModel> developerViewModels = new List<DeveloperViewModel>();
                 foreach (Developer d in fulldata)
                 {
-                    DeveloperViewModel developerViewModel = new DeveloperViewModel();
-                    developerViewModel = d;
                     developerViewModels.Add(d);
                 }
                 return Ok(developerViewModels);
