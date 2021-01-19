@@ -15,6 +15,7 @@ namespace Mocker
             GlobalConfiguration.Configure(WebApiConfig.Register);
             // Filter Registration
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            FilterConfig.RegisterWebApiFilters(GlobalConfiguration.Configuration.Filters);
             // Route Registration
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 

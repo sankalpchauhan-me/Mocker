@@ -15,10 +15,14 @@ namespace Mocker.ViewModels
 
         public static implicit operator AppEntityViewModel(AppEntity v)
         {
+
             List<EntityFieldViewModel> entityFieldViewModels = new List<EntityFieldViewModel>();
-            foreach (EntityField d in v.EntityFields)
+            if (v.EntityFields != null)
             {
-                entityFieldViewModels.Add(d);
+                foreach (EntityField d in v.EntityFields)
+                {
+                    entityFieldViewModels.Add(d);
+                }
             }
             return new AppEntityViewModel
             {

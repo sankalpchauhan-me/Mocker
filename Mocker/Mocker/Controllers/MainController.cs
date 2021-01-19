@@ -1,5 +1,7 @@
 ﻿using DBLib.Models;
+using Mocker.Filter;
 using Mocker.Repository;
+using Mocker.Utils;
 using Mocker.ViewModels;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,7 +9,8 @@ using System.Web.Http;
 
 namespace Mocker.Controllers
 {
-    [RoutePrefix("api/main")]
+    [ModelValidator]
+    [RoutePrefix(Constants.MAIN_ROUTE_PREFIX)]
     public class MainController : ApiController
     {
 
@@ -18,7 +21,7 @@ namespace Mocker.Controllers
             _repository = new MockerRepository();
         }
         // GET api/values
-        [Route("")]
+        [Route(Constants.DEFAULT_ROUTE)]
         public IHttpActionResult GetAll()
         {
             try

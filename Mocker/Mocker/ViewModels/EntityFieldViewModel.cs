@@ -12,6 +12,9 @@ namespace Mocker.ViewModels
 
         public static implicit operator EntityFieldViewModel(EntityField v)
         {
+            if (v == null)
+                return null;
+
             return new EntityFieldViewModel
             {
                 FieldId = v.FieldId,

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DBLib.Utils;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -29,7 +30,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a developer, App is dependent on developer
         /// </summary>
-        [ForeignKey("DevId")]
+        [ForeignKey(Constants.FK_DEV_APP)]
         public Developer Developer { get; set; }
 
         /// <summary>

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using DBLib.Utils;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DBLib.Models
@@ -30,7 +31,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a AppEntity, Dependent on AppEntity
         /// </summary>
-        [ForeignKey("EntityId")]
+        [ForeignKey(Constants.FK_ENTITY_FIELD)]
         public AppEntity AppEntitiy { get; set; }
     }
 }

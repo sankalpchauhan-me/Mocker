@@ -12,6 +12,9 @@ namespace Mocker.ViewModels
 
         public static implicit operator DevAppViewModel(DevApp v)
         {
+            if (v == null)
+                return null;
+
             List<AppEntityViewModel> appEntityViewModels = new List<AppEntityViewModel>();
             foreach (AppEntity d in v.AppEntitiys)
             {

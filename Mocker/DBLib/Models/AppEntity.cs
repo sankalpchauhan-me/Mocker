@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using DBLib.Utils;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -27,7 +28,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a DevApp, Dependent on DevApp
         /// </summary>
-        [ForeignKey("AppId")]
+        [ForeignKey(Constants.FK_APP_ENTITY)]
         public DevApp DevApp { get; set; }
 
         /// <summary>
