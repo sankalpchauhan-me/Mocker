@@ -4,4 +4,4 @@
 SQL Server DB to store developer and Apps details. Once these details entered, provide set of APIs to
 return mock data.
 
-Specs: [Mocker Specs](.\Aspnet_WebAPI_Assignment)
+Specs: [Mocker Specs](Aspnet_WebAPI_Assignment)
