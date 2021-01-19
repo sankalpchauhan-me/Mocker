@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using DBLib.AppDBContext;
 using System.Data.Entity;
-using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
-using System.Web.Optimization;
 using System.Web.Routing;
-using DBLib.AppDBContext;
 
 namespace Mocker
 {
-    public class WebApiApplication : System.Web.HttpApplication
+    public class WebApiApplication : HttpApplication
     {
         protected void Application_Start()
         {
-            AreaRegistration.RegisterAllAreas();
+            // Global Configuration
             GlobalConfiguration.Configure(WebApiConfig.Register);
+            // Filter Registration
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
+            // Route Registration
             RouteConfig.RegisterRoutes(RouteTable.Routes);
-            BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            //Database Dropped each time a modification occurs in any model
+            //Database Dropped each time a modification occurs in any model (Migration?)
             Database.SetInitializer(new SampleDataSeeder());
 
         }

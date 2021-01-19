@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBLib.Models
 {
@@ -37,6 +33,6 @@ namespace DBLib.Models
         /// <summary>
         /// Collection of EntityFields
         /// </summary>
-        public ICollection<EntityField> EntityFields {get; set;}
+        public ICollection<EntityField> EntityFields { get; set; }
     }
 }

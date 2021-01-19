@@ -1,8 +1,5 @@
 ﻿using DBLib.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Mocker.ViewModels
 {
@@ -17,7 +14,7 @@ namespace Mocker.ViewModels
         public static implicit operator DeveloperViewModel(Developer v)
         {
             List<DevAppViewModel> devApps = new List<DevAppViewModel>();
-            foreach(DevApp d in v.DevApps)
+            foreach (DevApp d in v.DevApps)
             {
                 devApps.Add(d);
             }

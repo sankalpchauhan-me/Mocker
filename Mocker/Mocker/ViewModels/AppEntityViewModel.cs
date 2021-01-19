@@ -1,8 +1,5 @@
 ﻿using DBLib.Models;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 
 namespace Mocker.ViewModels
 {
@@ -19,7 +16,7 @@ namespace Mocker.ViewModels
         public static implicit operator AppEntityViewModel(AppEntity v)
         {
             List<EntityFieldViewModel> entityFieldViewModels = new List<EntityFieldViewModel>();
-            foreach(EntityField d in v.EntityFields)
+            foreach (EntityField d in v.EntityFields)
             {
                 entityFieldViewModels.Add(d);
             }
@@ -29,7 +26,6 @@ namespace Mocker.ViewModels
                 EntityName = v.EntityName,
                 AppId = v.AppId,
                 EntityFields = entityFieldViewModels
-
             };
         }
     }
