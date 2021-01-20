@@ -26,12 +26,13 @@ namespace DBLib.Models
         /// Getter and Setter for User Id
         /// </summary>
         [Required]
-        [StringLength(100, MinimumLength = 4, ErrorMessage = "Must be at least 4 characters long.")]
+        [StringLength(100, MinimumLength = 4, ErrorMessage = "4<=UserID<=100")]
         [Index(IsUnique = true)]
         public string UserId { get; set; }
 
         /// <summary>
         /// Collection of Apps under this Developer
+        /// Navigation Prooperty
         /// </summary>
         public virtual ICollection<DevApp> DevApps { get; set; }
     }

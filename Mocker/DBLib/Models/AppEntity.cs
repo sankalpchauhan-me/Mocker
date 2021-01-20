@@ -34,6 +34,7 @@ namespace DBLib.Models
 
         /// <summary>
         /// Collection of EntityFields
+        /// Navigation Prooperty
         /// </summary>
         public ICollection<EntityField> EntityFields { get; set; }
     }

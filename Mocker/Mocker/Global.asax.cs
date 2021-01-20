@@ -1,4 +1,5 @@
-﻿using DBLib.AppDBContext;
+﻿using DBLib.Adapter;
+using DBLib.AppDBContext;
 using System.Data.Entity;
 using System.Web;
 using System.Web.Http;
@@ -20,7 +21,9 @@ namespace Mocker
             RouteConfig.RegisterRoutes(RouteTable.Routes);
 
             //Database Dropped each time a modification occurs in any model (Migration?)
-            Database.SetInitializer(new SampleDataSeeder());
+            if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("dev"))
+                Database.SetInitializer(new SampleDataSeeder());
+
 
         }
     }

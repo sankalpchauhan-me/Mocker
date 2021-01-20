@@ -15,17 +15,17 @@ namespace Mocker.DTOs
             if (v == null)
                 return null;
 
-            List<AppEntityDTO> appEntityViewModels = new List<AppEntityDTO>();
+            List<AppEntityDTO> appEntitys = new List<AppEntityDTO>();
             foreach (AppEntity d in v.AppEntitiys)
             {
-                appEntityViewModels.Add(d);
+                appEntitys.Add(d);
             }
             return new DevAppDTO
             {
                 AppId = v.AppId,
                 AppName = v.AppName,
                 DevId = v.DevId,
-                AppEntitiys = appEntityViewModels
+                AppEntitiys = appEntitys
             };
         }
     }

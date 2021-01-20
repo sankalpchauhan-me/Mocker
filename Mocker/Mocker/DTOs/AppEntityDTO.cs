@@ -16,12 +16,12 @@ namespace Mocker.DTOs
         public static implicit operator AppEntityDTO(AppEntity v)
         {
 
-            List<EntityFieldDTO> entityFieldViewModels = new List<EntityFieldDTO>();
+            List<EntityFieldDTO> entityFields = new List<EntityFieldDTO>();
             if (v.EntityFields != null)
             {
                 foreach (EntityField d in v.EntityFields)
                 {
-                    entityFieldViewModels.Add(d);
+                    entityFields.Add(d);
                 }
             }
             return new AppEntityDTO
@@ -29,7 +29,7 @@ namespace Mocker.DTOs
                 EntityId = v.EntityId,
                 EntityName = v.EntityName,
                 AppId = v.AppId,
-                EntityFields = entityFieldViewModels
+                EntityFields = entityFields
             };
         }
     }

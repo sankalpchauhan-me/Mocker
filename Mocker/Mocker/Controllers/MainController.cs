@@ -27,12 +27,12 @@ namespace Mocker.Controllers
             try
             {
                 List<Developer> fulldata = _repository.GetAllInfo();
-                List<DeveloperDTO> developerViewModels = new List<DeveloperDTO>();
+                List<DeveloperDTO> developerDTO = new List<DeveloperDTO>();
                 foreach (Developer d in fulldata)
                 {
-                    developerViewModels.Add(d);
+                    developerDTO.Add(d);
                 }
-                return Ok(developerViewModels);
+                return Ok(developerDTO);
             }
             catch (SqlException e)
             {

@@ -23,12 +23,12 @@ namespace DBLib.AppDBContext
         {
             return base.SaveChanges();
         }
-        //Fluent API
+        //API
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Developer>().HasMany(d => d.DevApps).WithRequired(e => e.Developer).HasForeignKey(e => e.DevId);
-            modelBuilder.Entity<DevApp>().HasMany(d => d.AppEntitiys).WithRequired(e => e.DevApp).HasForeignKey(e => e.AppId);
-            modelBuilder.Entity<AppEntity>().HasMany(d => d.EntityFields).WithRequired(e => e.AppEntitiy).HasForeignKey(e => e.EntityId);
+            modelBuilder.Entity<Developer>().HasMany(d => d.DevApps).WithRequired(e => e.Developer).HasForeignKey(e => e.DevId).WillCascadeOnDelete(true);
+            modelBuilder.Entity<DevApp>().HasMany(d => d.AppEntitiys).WithRequired(e => e.DevApp).HasForeignKey(e => e.AppId).WillCascadeOnDelete(true);
+            modelBuilder.Entity<AppEntity>().HasMany(d => d.EntityFields).WithRequired(e => e.AppEntitiy).HasForeignKey(e => e.EntityId).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
     }
