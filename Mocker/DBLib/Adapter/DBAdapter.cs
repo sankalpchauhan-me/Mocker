@@ -15,6 +15,5 @@ namespace DBLib.Adapter
         DbSet<AppEntity> AppEntitiys { get; set; }
         DbSet<EntityField> EntityFields { get; set; }
         int SaveChanges();
-
     }
 }

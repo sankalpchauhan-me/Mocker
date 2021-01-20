@@ -5,6 +5,7 @@ using Mocker.Repository;
 using Mocker.Utils;
 using System;
 using System.Data.SqlClient;
+using System.Net;
 using System.Web.Http;
 
 namespace Mocker.Controllers
@@ -44,13 +45,33 @@ namespace Mocker.Controllers
         {
             try
             {
-                DeveloperDTO developerViewModel = new DeveloperDTO();
+                DeveloperDTO developerDTO = new DeveloperDTO();
                 Developer d = _repository.GetDeveloperById(id);
-                developerViewModel = d;
-                return Ok(developerViewModel);
+                developerDTO = d;
+                return Ok(developerDTO);
             }
             catch (SqlException e)
             {
+                return InternalServerError(e);
+            }
+        }
+
+        [NotFoundActionFilter]
+        [HttpPut]
+        [Route("{id}")]
+        public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody]Developer modifiedDeveloper)
+        {
+            try{
+                DeveloperDTO developerDTO = new DeveloperDTO();
+                if(_repository.UpdateDeveloper(id, modifiedDeveloper))
+                {
+                    return StatusCode(HttpStatusCode.Accepted);
+                }
+                else{
+                    return NotFound();
+                }
+            }
+            catch (SqlException e){
                 return InternalServerError(e);
             }
         }

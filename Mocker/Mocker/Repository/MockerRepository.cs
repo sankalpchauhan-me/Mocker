@@ -5,6 +5,7 @@ using Mocker.Utils;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
+using System.Data.Entity.Migrations;
 
 namespace Mocker.Repository
 {
@@ -42,6 +43,21 @@ namespace Mocker.Repository
         {
             Developer dev = _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
             return _context.Developers.Remove(dev);
+        }
+
+        public bool UpdateDeveloper(string id, Developer developer)
+        {
+            Developer dev = _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            //Non Generic
+            if (dev != null && _context.GetType().Equals(typeof(MockSQLContext)))
+            {
+                //Prevent user from changing the user id
+                developer.UserId = dev.UserId;
+                ((MockSQLContext)_context).Set<Developer>().AddOrUpdate(developer);
+                return true;
+            }
+
+            return false;
         }
 
         public bool Save()
