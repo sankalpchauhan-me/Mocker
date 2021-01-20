@@ -37,7 +37,7 @@ namespace Mocker.Repository
             return _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
         }
 
-        public bool Save()
+        public bool Save  ()
         {
             int numberOfEntries = _context.SaveChanges();
             return numberOfEntries != 0 ? true : false;

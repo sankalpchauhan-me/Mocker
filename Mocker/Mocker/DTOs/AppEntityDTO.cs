@@ -1,9 +1,9 @@
 ﻿using DBLib.Models;
 using System.Collections.Generic;
 
-namespace Mocker.ViewModels
+namespace Mocker.DTOs
 {
-    public class AppEntityViewModel
+    public class AppEntityDTO
     {
 
         public int EntityId { get; set; }
@@ -11,12 +11,12 @@ namespace Mocker.ViewModels
         public int AppId { get; set; }
 
 
-        public List<EntityFieldViewModel> EntityFields { get; set; }
+        public List<EntityFieldDTO> EntityFields { get; set; }
 
-        public static implicit operator AppEntityViewModel(AppEntity v)
+        public static implicit operator AppEntityDTO(AppEntity v)
         {
 
-            List<EntityFieldViewModel> entityFieldViewModels = new List<EntityFieldViewModel>();
+            List<EntityFieldDTO> entityFieldViewModels = new List<EntityFieldDTO>();
             if (v.EntityFields != null)
             {
                 foreach (EntityField d in v.EntityFields)
@@ -24,7 +24,7 @@ namespace Mocker.ViewModels
                     entityFieldViewModels.Add(d);
                 }
             }
-            return new AppEntityViewModel
+            return new AppEntityDTO
             {
                 EntityId = v.EntityId,
                 EntityName = v.EntityName,

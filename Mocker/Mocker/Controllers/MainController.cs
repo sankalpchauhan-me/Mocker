@@ -2,7 +2,7 @@
 using Mocker.Filter;
 using Mocker.Repository;
 using Mocker.Utils;
-using Mocker.ViewModels;
+using Mocker.DTOs;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.Http;
@@ -27,7 +27,7 @@ namespace Mocker.Controllers
             try
             {
                 List<Developer> fulldata = _repository.GetAllInfo();
-                List<DeveloperViewModel> developerViewModels = new List<DeveloperViewModel>();
+                List<DeveloperDTO> developerViewModels = new List<DeveloperDTO>();
                 foreach (Developer d in fulldata)
                 {
                     developerViewModels.Add(d);

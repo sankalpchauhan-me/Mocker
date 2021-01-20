@@ -1,26 +1,26 @@
 ﻿using DBLib.Models;
 using System.Collections.Generic;
 
-namespace Mocker.ViewModels
+namespace Mocker.DTOs
 {
-    public class DevAppViewModel
+    public class DevAppDTO
     {
         public int AppId { get; set; }
         public string AppName { get; set; }
         public int DevId { get; set; }
-        public virtual List<AppEntityViewModel> AppEntitiys { get; set; }
+        public virtual List<AppEntityDTO> AppEntitiys { get; set; }
 
-        public static implicit operator DevAppViewModel(DevApp v)
+        public static implicit operator DevAppDTO(DevApp v)
         {
             if (v == null)
                 return null;
 
-            List<AppEntityViewModel> appEntityViewModels = new List<AppEntityViewModel>();
+            List<AppEntityDTO> appEntityViewModels = new List<AppEntityDTO>();
             foreach (AppEntity d in v.AppEntitiys)
             {
                 appEntityViewModels.Add(d);
             }
-            return new DevAppViewModel
+            return new DevAppDTO
             {
                 AppId = v.AppId,
                 AppName = v.AppName,

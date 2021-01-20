@@ -1,8 +1,8 @@
 ﻿using DBLib.Models;
 
-namespace Mocker.ViewModels
+namespace Mocker.DTOs
 {
-    public class EntityFieldViewModel
+    public class EntityFieldDTO
     {
 
         public int FieldId { get; set; }
@@ -10,12 +10,12 @@ namespace Mocker.ViewModels
         public string FieldType { get; set; }
         public int EntityId { get; set; }
 
-        public static implicit operator EntityFieldViewModel(EntityField v)
+        public static implicit operator EntityFieldDTO(EntityField v)
         {
             if (v == null)
                 return null;
 
-            return new EntityFieldViewModel
+            return new EntityFieldDTO
             {
                 FieldId = v.FieldId,
                 FieldName = v.FieldName,

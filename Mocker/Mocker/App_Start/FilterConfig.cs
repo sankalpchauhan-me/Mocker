@@ -13,7 +13,7 @@ namespace Mocker
 
         public static void RegisterWebApiFilters(System.Web.Http.Filters.HttpFilterCollection filters)
         {
-            filters.Add(new NotFoundActionFilterAttribute());
+            //filters.Add(new NotFoundActionFilterAttribute());
         }
     }
 
