@@ -7,9 +7,9 @@ namespace DBLib.AppDBContext
     /// <summary>
     /// Seeds sample data for testing in debug mode
     /// </summary>
-    public class SampleDataSeeder : DropCreateDatabaseIfModelChanges<MockDBContext>
+    public class SampleDataSeeder : DropCreateDatabaseIfModelChanges<MockSQLContext>
     {
-        protected override void Seed(MockDBContext context)
+        protected override void Seed(MockSQLContext context)
         {
             Developer dev1 = new Developer()
             {

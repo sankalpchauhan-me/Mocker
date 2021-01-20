@@ -1,5 +1,7 @@
-﻿using DBLib.AppDBContext;
+﻿using DBLib.Adapter;
+using DBLib.AppDBContext;
 using DBLib.Models;
+using Mocker.Utils;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -8,14 +10,14 @@ namespace Mocker.Repository
 {
     public class MockerRepository
     {
-        private MockDBContext _context;
+        private DBAdapter _context;
 
         public MockerRepository()
         {
-            _context = new MockDBContext();
+            _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
-        public MockerRepository(MockDBContext context)
+        public MockerRepository(DBAdapter context)
         {
             _context = context;
         }
@@ -34,12 +36,18 @@ namespace Mocker.Repository
 
         public Developer GetDeveloperById(string id)
         {
-            return _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            return _context.Developers.Include(d => d.DevApps).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).Where(d => d.UserId.Equals(id)).FirstOrDefault();
         }
 
-        public bool Save  ()
+        public Developer DeleteDeveloperById(string id)
         {
-            int numberOfEntries = _context.SaveChanges();
+            Developer dev = _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            return _context.Developers.Remove(dev);
+        }
+
+        public bool Save()
+        {
+            int numberOfEntries =_context.SaveChanges();
             return numberOfEntries != 0 ? true : false;
         }
     }

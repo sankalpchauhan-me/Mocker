@@ -12,5 +12,6 @@ namespace Mocker.Utils
         public const string DEFAULT_ROUTE = "";
         public const string REGISTER_ROUTE = "register";
         public const string GET_DEVELOPER_BY_ID = "GetDeveloperById";
+        public const string CONN_STRING = "MockSQLContext";
     }
 }

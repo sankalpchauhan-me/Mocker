@@ -1,4 +1,5 @@
-﻿using DBLib.Models;
+﻿using DBLib.Adapter;
+using DBLib.Models;
 using System.Data.Entity;
 
 namespace DBLib.AppDBContext
@@ -6,13 +7,22 @@ namespace DBLib.AppDBContext
     /// <summary>
     /// ORM for Entity FrameWork
     /// </summary>
-    public class MockDBContext : DbContext
+    public class MockSQLContext : DbContext, DBAdapter
     {
+        public MockSQLContext(string connString)
+        {
+            this.Database.Connection.ConnectionString = connString;
+        }
         public DbSet<Developer> Developers { get; set; }
         public DbSet<DevApp> DevApps { get; set; }
         public DbSet<AppEntity> AppEntitiys { get; set; }
         public DbSet<EntityField> EntityFields { get; set; }
 
+
+        public override int SaveChanges()
+        {
+            return base.SaveChanges();
+        }
         //Fluent API
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

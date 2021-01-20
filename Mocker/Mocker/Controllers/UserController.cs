@@ -25,9 +25,11 @@ namespace Mocker.Controllers
         {
             try
             {
-                _repository.InsertDev(developer);
-                _repository.Save();
-                return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), developer);
+                Developer insertedDev= _repository.InsertDev(developer);
+                if(insertedDev!=null)
+                    _repository.Save();
+                DeveloperDTO dto = insertedDev;
+                return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), dto);
             }
             catch (SqlException e)
             {

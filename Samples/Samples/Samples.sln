@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ContentNegotiationAndMediaF
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EntityFramework Demo", "EntityFramework Demo\EntityFramework Demo.csproj", "{AF91A452-0FFB-4114-BA10-B874317FC6B5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{9C322E1A-3B51-4181-9BD4-3283BD4A16AD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF91A452-0FFB-4114-BA10-B874317FC6B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9C322E1A-3B51-4181-9BD4-3283BD4A16AD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9C322E1A-3B51-4181-9BD4-3283BD4A16AD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9C322E1A-3B51-4181-9BD4-3283BD4A16AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9C322E1A-3B51-4181-9BD4-3283BD4A16AD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

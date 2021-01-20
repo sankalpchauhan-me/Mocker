@@ -17,6 +17,7 @@ namespace DBLib.Models
         /// <summary>
         /// Getter and Setter for Entity Name
         /// </summary>
+        [Required]
         public string EntityName { get; set; }
 
         /// <summary>

@@ -35,8 +35,7 @@ namespace DBLib.Models
 
         /// <summary>
         /// Collection of App Entities
-        /// </summary>
-        /// 
+        /// </summary> 
         public virtual ICollection<AppEntity> AppEntitiys { get; set; }
     }
 }

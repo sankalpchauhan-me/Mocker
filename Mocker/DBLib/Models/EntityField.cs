@@ -15,11 +15,13 @@ namespace DBLib.Models
         /// <summary>
         /// Getter and Setter for Field Name
         /// </summary>
+        [Required]
         public string FieldName { get; set; }
 
         /// <summary>
         /// Getter and Setter for Feild Type
         /// </summary>
+        [Required]
         public string FieldType { get; set; }
 
         /// <summary>
