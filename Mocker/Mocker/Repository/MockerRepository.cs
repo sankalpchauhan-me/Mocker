@@ -112,7 +112,11 @@ namespace Mocker.Repository
         public DevApp GetDevApp(string devId, string appName)
         {
             Developer dev = GetDeveloperById(devId);
-            return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId).Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
+            if (dev != null)
+            {
+                return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId).Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
+            }
+            return null;
         }
 
         //Update
@@ -122,7 +126,7 @@ namespace Mocker.Repository
             DevApp da = _context.DevApps.Where(d => d.DevId == dev.DevId).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
             if (da != null)
             {
-                //Prevent user from changing app id while updating
+                //Prevent user from changing app id and foreign key while updating
                 devApp.DevId = da.DevId;
                 devApp.AppId = da.AppId;
                 ((MockSQLContext)_context).Set<DevApp>().AddOrUpdate(devApp);
