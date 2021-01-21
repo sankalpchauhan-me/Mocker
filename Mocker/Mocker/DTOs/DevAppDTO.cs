@@ -10,6 +10,7 @@ namespace Mocker.DTOs
         public int DevId { get; set; }
         public virtual List<AppEntityDTO> AppEntitiys { get; set; }
 
+
         public static implicit operator DevAppDTO(DevApp v)
         {
             if (v == null)

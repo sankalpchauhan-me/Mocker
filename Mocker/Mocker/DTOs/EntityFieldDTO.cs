@@ -10,6 +10,7 @@ namespace Mocker.DTOs
         public string FieldType { get; set; }
         public int EntityId { get; set; }
 
+
         public static implicit operator EntityFieldDTO(EntityField v)
         {
             if (v == null)

@@ -30,6 +30,8 @@ namespace DBLib.Models
         [Index(IsUnique = true)]
         public string UserId { get; set; }
 
+        public bool DeactivationFlag { get; set; }
+
         /// <summary>
         /// Collection of Apps under this Developer
         /// Navigation Prooperty

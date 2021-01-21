@@ -32,6 +32,8 @@ namespace DBLib.Models
         [ForeignKey(Constants.FK_APP_ENTITY)]
         public DevApp DevApp { get; set; }
 
+        public bool DeactivationFlag { get; set; }
+
         /// <summary>
         /// Collection of EntityFields
         /// Navigation Prooperty

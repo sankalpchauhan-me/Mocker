@@ -11,6 +11,7 @@ namespace Mocker.DTOs
         public int AppId { get; set; }
 
 
+
         public List<EntityFieldDTO> EntityFields { get; set; }
 
         public static implicit operator AppEntityDTO(AppEntity v)

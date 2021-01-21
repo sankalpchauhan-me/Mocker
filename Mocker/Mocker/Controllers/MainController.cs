@@ -20,7 +20,7 @@ namespace Mocker.Controllers
         {
             _repository = new MockerRepository();
         }
-        // GET api/values
+
         [Route(Constants.DEFAULT_ROUTE)]
         public IHttpActionResult GetAll()
         {
@@ -38,30 +38,6 @@ namespace Mocker.Controllers
             {
                 return InternalServerError(e);
             }
-        }
-
-        // GET api/values/5
-        public string Get(int id)
-        {
-            return "value";
-        }
-
-        // POST api/values
-        public void Post([FromBody] string value)
-        {
-
-        }
-
-        // PUT api/values/5
-        public void Put(int id, [FromBody] string value)
-        {
-
-        }
-
-        // DELETE api/values/5
-        public void Delete(int id)
-        {
-
         }
     }
 }

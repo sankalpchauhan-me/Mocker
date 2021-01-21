@@ -25,7 +25,7 @@ namespace Mocker.Repository
 
         public List<Developer> GetAllInfo()
         {
-            return _context.Developers.Include(d => d.DevApps).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
+            return _context.Developers.Include(d => d.DevApps).Where(d=>d.DeactivationFlag.Equals(false)).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
         }
 
         public Developer InsertDev(Developer d)
@@ -43,7 +43,7 @@ namespace Mocker.Repository
 
         public Developer GetDeveloperById(string id)
         {
-            return _context.Developers.Include(d => d.DevApps).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false)).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).Where(d => d.UserId.Equals(id)).FirstOrDefault();
         }
 
         public Developer DeleteDeveloperById(string id)
@@ -52,6 +52,20 @@ namespace Mocker.Repository
             return _context.Developers.Remove(dev);
         }
 
+        public bool SetDeveloperActive(string id, bool val)
+        {
+            Developer dev = _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            dev.DeactivationFlag = val;
+
+            //Non Generic
+            if (dev != null && _context.GetType().Equals(typeof(MockSQLContext)))
+            {
+                ((MockSQLContext)_context).Set<Developer>().AddOrUpdate(dev);
+                return true;
+            }else{
+                return false;
+            }
+        }
         //Refactor
         public bool UpdateDeveloper(string id, Developer developer)
         {

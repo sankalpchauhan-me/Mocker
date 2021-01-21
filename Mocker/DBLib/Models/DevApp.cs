@@ -33,6 +33,8 @@ namespace DBLib.Models
         [ForeignKey(Constants.FK_DEV_APP)]
         public Developer Developer { get; set; }
 
+        public bool DeactivationFlag { get; set; }
+
         /// <summary>
         /// Collection of App Entities
         /// Navigation Prooperty

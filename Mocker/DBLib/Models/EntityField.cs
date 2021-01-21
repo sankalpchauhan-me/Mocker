@@ -30,6 +30,8 @@ namespace DBLib.Models
         /// </summary>
         public int EntityId { get; set; }
 
+        public bool DeactivationFlag { get; set; }
+
         /// <summary>
         /// Must have a AppEntity, Dependent on AppEntity
         /// </summary>

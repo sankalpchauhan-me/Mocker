@@ -26,8 +26,8 @@ namespace Mocker.Controllers
         {
             try
             {
-                Developer insertedDev= _repository.InsertDev(developer);
-                if(insertedDev!=null)
+                Developer insertedDev = _repository.InsertDev(developer);
+                if (insertedDev != null)
                     _repository.Save();
                 DeveloperDTO dto = insertedDev;
                 return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), dto);
@@ -58,21 +58,24 @@ namespace Mocker.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody]Developer modifiedDeveloper)
+        public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody] Developer modifiedDeveloper)
         {
-            try{
+            try
+            {
                 DeveloperDTO developerDTO = new DeveloperDTO();
-                if(_repository.UpdateDeveloper(id, modifiedDeveloper))
+                if (_repository.UpdateDeveloper(id, modifiedDeveloper))
                 {
                     //Hard Update
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
                 }
-                else{
+                else
+                {
                     return NotFound();
                 }
             }
-            catch (SqlException e){
+            catch (SqlException e)
+            {
                 return InternalServerError(e);
             }
         }
@@ -84,7 +87,7 @@ namespace Mocker.Controllers
             try
             {
                 DeveloperDTO developerDTO = new DeveloperDTO();
-                if (_repository.DeleteDeveloperById(id)!=null)
+                if (_repository.DeleteDeveloperById(id) != null)
                 {
                     //Hard Delete
                     _repository.Save();
@@ -100,5 +103,29 @@ namespace Mocker.Controllers
                 return InternalServerError(e);
             }
         }
+
+        // Deactivate User
+        [HttpPatch]
+        [Route("{id}")]
+        public IHttpActionResult SetUserActivation([FromUri] string id, [FromUri] bool deactivation)
+        {
+            try
+            {
+                if (_repository.SetDeveloperActive(id, deactivation))
+                {
+                    _repository.Save();
+                    return StatusCode(HttpStatusCode.Accepted);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (SqlException e)
+            {
+                return InternalServerError(e);
+            }
+        }
+
     }
 }
