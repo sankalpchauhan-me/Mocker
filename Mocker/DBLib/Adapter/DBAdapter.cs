@@ -1,13 +1,11 @@
 ﻿using DBLib.Models;
-using System;
-using System.Collections.Generic;
 using System.Data.Entity;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DBLib.Adapter
 {
+    /// <summary>
+    /// An adapter class that
+    /// </summary>
     public interface DBAdapter
     {
         DbSet<Developer> Developers { get; set; }

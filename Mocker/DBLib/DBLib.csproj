@@ -53,7 +53,6 @@
   <ItemGroup>
     <Compile Include="Adapter\DBAdapter.cs" />
     <Compile Include="AppDBContext\SampleDataSeeder.cs" />
-    <Compile Include="Class1.cs" />
     <Compile Include="AppDBContext\MockSQLContext.cs" />
     <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\DevApp.cs" />

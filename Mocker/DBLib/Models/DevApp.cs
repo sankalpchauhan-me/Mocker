@@ -19,6 +19,8 @@ namespace DBLib.Models
         /// <summary>
         /// Getter and Setter for App Name
         /// </summary>
+        [StringLength(150, ErrorMessage = "AppName<=150")]
+        [Index(IsUnique = true)]
         public string AppName { get; set; }
 
         /// <summary>

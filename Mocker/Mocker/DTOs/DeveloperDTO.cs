@@ -14,7 +14,6 @@ namespace Mocker.DTOs
         public string UserId { get; set; }
         public virtual List<DevAppDTO> DevApps { get; set; }
 
-
         public static implicit operator DeveloperDTO(Developer v)
         {
             if (v == null)
