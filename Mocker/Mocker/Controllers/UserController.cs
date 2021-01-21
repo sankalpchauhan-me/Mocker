@@ -56,7 +56,6 @@ namespace Mocker.Controllers
             }
         }
 
-        [NotFoundActionFilter]
         [HttpPut]
         [Route("{id}")]
         public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody]Developer modifiedDeveloper)
@@ -65,6 +64,8 @@ namespace Mocker.Controllers
                 DeveloperDTO developerDTO = new DeveloperDTO();
                 if(_repository.UpdateDeveloper(id, modifiedDeveloper))
                 {
+                    //Hard Update
+                    _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
                 }
                 else{
@@ -72,6 +73,30 @@ namespace Mocker.Controllers
                 }
             }
             catch (SqlException e){
+                return InternalServerError(e);
+            }
+        }
+
+        [HttpDelete]
+        [Route("{id}")]
+        public IHttpActionResult DeleteRegisteredUser([FromUri] string id)
+        {
+            try
+            {
+                DeveloperDTO developerDTO = new DeveloperDTO();
+                if (_repository.DeleteDeveloperById(id)!=null)
+                {
+                    //Hard Delete
+                    _repository.Save();
+                    return StatusCode(HttpStatusCode.Accepted);
+                }
+                else
+                {
+                    return NotFound();
+                }
+            }
+            catch (SqlException e)
+            {
                 return InternalServerError(e);
             }
         }
