@@ -264,9 +264,9 @@ namespace Mocker.Repository
         //Create
         public EntityField InsertEntityField(string devId, string appName, string entityName, EntityField entityField)
         {
-            EntityField app = GetEntityField(devId, appName, entityName, entityField.FieldName);
+            AppEntity app = GetAppEntity(devId, appName, entityName);
             entityField.EntityId = app.EntityId;
-            return _context.EntityFields.Add(app);
+            return _context.EntityFields.Add(entityField);
         }
 
         //Read
@@ -288,9 +288,9 @@ namespace Mocker.Repository
         }
 
         //Update
-        public bool UpdateEntityField(string devId, string appName, string entityName, EntityField entityField)
+        public bool UpdateEntityField(string devId, string appName, string entityName, string fieldName, EntityField entityField)
         {
-            EntityField ef = GetEntityField(devId, appName, entityName, entityField.FieldName);
+            EntityField ef = GetEntityField(devId, appName, entityName, fieldName);
             if (ef != null)
             {
                 //Prevent user from changing references

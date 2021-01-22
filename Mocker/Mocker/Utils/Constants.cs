@@ -10,6 +10,7 @@ namespace Mocker.Utils
         public const string USER_ROUTE_PREFIX = "api/user";
         public const string APP_ROUTE_PREFIX = "api";
         public const string APP_ENTITY_ROUTE_PREFIX = "api";
+        public const string APP_FIELD_ROUTE_PREFIX = "api";
         public const string MAIN_ROUTE_PREFIX = "api/main";
         public const string DEFAULT_ROUTE = "";
         public const string REGISTER_ROUTE = "register";

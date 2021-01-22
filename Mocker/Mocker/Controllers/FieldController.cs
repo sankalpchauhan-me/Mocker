@@ -14,6 +14,7 @@ using Mocker.Utils;
 namespace Mocker.Controllers
 {
     [ModelValidator]
+    [RoutePrefix(Constants.APP_FIELD_ROUTE_PREFIX)]
     public class FieldController : ApiController
     {
         private MockerRepository _repository;
@@ -66,7 +67,7 @@ namespace Mocker.Controllers
         {
             try
             {
-                if (_repository.UpdateEntityField(userId, appName, entityname, entityField))
+                if (_repository.UpdateEntityField(userId, appName, entityname, fieldName, entityField))
                 {
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
