@@ -33,6 +33,10 @@ namespace Mocker.Controllers
                 {
                     _repository.Save();
                 }
+                else
+                {
+                    return BadRequest("This entity already exists in the specified app for this user");
+                }
                 appEntityDTO = da;
                 return Created(new Uri(Url.Link(Constants.GET_ENTITY_BY_NAME, new { userid, appname, entityname = appEntityDTO.EntityName })), appEntityDTO);
             }
@@ -46,7 +50,7 @@ namespace Mocker.Controllers
         [HttpGet]
         [NotFoundActionFilter]
         [Route("{userid}/entity/{entityname}", Name = Constants.GET_ENTITY_BY_NAME)]
-        public IHttpActionResult GetAppEntity([FromUri] string userid, [FromUri] string entityname,[FromUri] string appname)
+        public IHttpActionResult GetAppEntity([FromUri] string userid, [FromUri] string entityname, [FromUri] string appname)
         {
             try
             {
@@ -91,7 +95,7 @@ namespace Mocker.Controllers
             try
             {
                 AppEntity appEntity = _repository.DeleteAppEntity(userid, appname, entityname);
-                if(appEntity != null)
+                if (appEntity != null)
                 {
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
@@ -114,7 +118,7 @@ namespace Mocker.Controllers
         {
             try
             {
-                if(_repository.SetAppEntityActive(userId, appname, entityname, deactivation))
+                if (_repository.SetAppEntityActive(userId, appname, entityname, deactivation))
                 {
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);

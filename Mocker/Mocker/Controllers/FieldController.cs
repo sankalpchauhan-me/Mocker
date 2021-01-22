@@ -1,15 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
-using DBLib.Models;
+﻿using DBLib.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
 using Mocker.Repository;
 using Mocker.Utils;
+using System;
+using System.Data.SqlClient;
+using System.Net;
+using System.Web.Http;
 
 namespace Mocker.Controllers
 {
@@ -34,6 +31,10 @@ namespace Mocker.Controllers
                 if (da != null)
                 {
                     _repository.Save();
+                }
+                else
+                {
+                    return BadRequest("This field already exists in the specified entity for this user");
                 }
                 devAppDTO = da;
                 return Created(new Uri(Url.Link(Constants.GET_FIELD_BY_NAME, new { userId, entityname, entityField.FieldName, appname })), devAppDTO);
@@ -113,7 +114,7 @@ namespace Mocker.Controllers
         {
             try
             {
-                if (_repository.SetEntityFieldActive(userId, appName, entityname, fieldname, deactivation ))
+                if (_repository.SetEntityFieldActive(userId, appName, entityname, fieldname, deactivation))
                 {
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);

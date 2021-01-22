@@ -188,17 +188,23 @@ namespace Mocker.Repository
         //Create
         public AppEntity InsertAppEntity(string devId, string appName, AppEntity appEntity)
         {
+            //Alternative for Candidate Key
+            // Here we will first check wether we have an entity that is residing inside the app with the same name, if yes we will not proceed
             DevApp app = GetDevApp(devId, appName);
             appEntity.AppId = app.AppId;
+            AppEntity check = _context.AppEntitiys.Where(d => d.EntityName.Equals(appEntity.EntityName)).Where(d => d.AppId.Equals(app.AppId)).FirstOrDefault();
+            if (check != null)
+                return null;
             return _context.AppEntitiys.Add(appEntity);
         }
 
         //Read
         public AppEntity GetAppEntity(string devId, string appName, string entityName)
         {
-            // TODO:
-            //WARNING: ENTITYNAME IS NOT UNIQUE (Candidate Key?)
+            // DONE:
+            //ENTITYNAME IS NOT UNIQUE (Candidate Key?)
             //Edge Case: Same Entity Name and AppId inside Table could collide
+            //Sankalp: Solved in @InsertAppEntity 
 
             DevApp app = GetDevApp(devId, appName);
             if (app != null)
@@ -264,17 +270,23 @@ namespace Mocker.Repository
         //Create
         public EntityField InsertEntityField(string devId, string appName, string entityName, EntityField entityField)
         {
+            //Alternative for Candidate Key
+            // Here we will first check wether we have a field that is residing inside this AppEntity with the same name, if yes we will not proceed
             AppEntity app = GetAppEntity(devId, appName, entityName);
             entityField.EntityId = app.EntityId;
+            EntityField check = _context.EntityFields.Where(d => d.FieldName.Equals(entityField.FieldName)).Where(d => d.EntityId.Equals(app.EntityId)).FirstOrDefault();
+            if (check != null)
+                return null;
             return _context.EntityFields.Add(entityField);
         }
 
         //Read
         public EntityField GetEntityField(string devId, string appName, string entityName, string fieldName)
         {
-            // TODO:
+            // DONE:
             //WARNING: ENTITYFIELDNAME IS NOT UNIQUE (Candidate Key?)
             //Edge Case: Same Field Name and EntityId inside Table could collide
+            //Sankalp: Solved in @InsertEntityField
 
             AppEntity app = GetAppEntity(devId, appName, entityName);
             if (app != null)
