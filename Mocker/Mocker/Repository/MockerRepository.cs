@@ -25,7 +25,8 @@ namespace Mocker.Repository
 
         public List<Developer> GetAllInfo()
         {
-            return _context.Developers.Include(d => d.DevApps).Where(d=>d.DeactivationFlag.Equals(false)).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
+            return _context.Developers.Include(d => d.DevApps).Where(d=>d.DeactivationFlag.Equals(false))
+                .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
         }
 
         //Developers
@@ -40,7 +41,9 @@ namespace Mocker.Repository
         //Read
         public Developer GetDeveloperById(string id)
         {
-            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false)).Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
+                .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
+                .Where(d => d.UserId.Equals(id)).FirstOrDefault();
         }
 
         //Delete
@@ -70,10 +73,11 @@ namespace Mocker.Repository
         }
 
         //Update
-        //Refactor
+        // TODO: Refactor
         public bool UpdateDeveloper(string id, Developer developer)
         {
             Developer dev = _context.Developers.Where(d => d.UserId.Equals(id)).FirstOrDefault();
+            // TODO: Make Generic 
             //Non Generic
             if (dev != null && _context.GetType().Equals(typeof(MockSQLContext)))
             {
@@ -114,12 +118,14 @@ namespace Mocker.Repository
             Developer dev = GetDeveloperById(devId);
             if (dev != null)
             {
-                return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId).Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
+                return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId)
+                    .Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
             }
             return null;
         }
 
         //Update
+        // TODO: Make Generic & Refactor
         public bool UpdateDevApp(string devId, string appName, DevApp devApp)
         {
             Developer dev = GetDeveloperById(devId);
@@ -161,10 +167,87 @@ namespace Mocker.Repository
             Developer dev = GetDeveloperById(devId);
             DevApp da = _context.DevApps.Where(d => d.DevId == dev.DevId).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
             da.DeactivationFlag = val;
+            // TODO: Make Generic
             //Non Generic
             if (da != null && _context.GetType().Equals(typeof(MockSQLContext)))
             {
                 ((MockSQLContext)_context).Set<DevApp>().AddOrUpdate(da);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        //AppEntity
+
+        //Create
+        public AppEntity InsertAppEntity(string devId, string appName, AppEntity appEntity)
+        {
+            DevApp app = GetDevApp(devId, appName);
+            appEntity.AppId = app.AppId;
+            return _context.AppEntitiys.Add(appEntity);
+        }
+
+        //Read
+        public AppEntity GetAppEntity(string devId, string appName, string entityName)
+        {
+            // TODO:
+            //WARNING: ENTITYNAME IS NOT UNIQUE (Candidate Key?)
+            //Edge Case: Same Entity Name and AppId inside Table could collide
+
+            DevApp app = GetDevApp(devId, appName);
+            if (app != null)
+            {
+                return _context.AppEntitiys.Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d=>d.EntityName.Equals(entityName))
+                    .Include(o => o.EntityFields).FirstOrDefault();
+            }
+            return null;
+            
+        }
+
+        //Update
+        public bool UpdateAppEntity(string devId, string appName, string entityName, AppEntity appEntity)
+        {
+            AppEntity ae = GetAppEntity(devId, appName, entityName);
+            if (ae != null)
+            {
+                //Prevent user from changing references
+                appEntity.AppId = ae.AppId;
+                appEntity.EntityId = ae.EntityId;
+
+                ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(appEntity);
+                foreach(EntityField ef in appEntity.EntityFields)
+                {
+                    ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
+                }
+                return true;
+            }
+            return false;
+        }
+
+        //Delete
+        public AppEntity DeleteAppEntity(string devId, string appName, string entityName)
+        {
+            AppEntity appEntity = GetAppEntity(devId, appName, entityName);
+            if (appEntity != null)
+            {
+                return _context.AppEntitiys.Remove(appEntity);
+            }
+            return null;
+        }
+
+        //Activate
+        public bool SetAppEntityActive(string devId, string appName, string entityName, bool val)
+        {
+            DevApp da = GetDevApp(devId, appName);
+            AppEntity ae = _context.AppEntitiys.Where(d => d.AppId == da.AppId).Where(d => d.EntityName.Equals(entityName)).FirstOrDefault();
+            //Non Generic
+            if (ae != null && _context.GetType().Equals(typeof(MockSQLContext)))
+            {
+                ae.DeactivationFlag = val;
+                ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(ae);
                 return true;
             }
             else

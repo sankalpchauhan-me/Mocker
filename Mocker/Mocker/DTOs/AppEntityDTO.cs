@@ -16,6 +16,8 @@ namespace Mocker.DTOs
 
         public static implicit operator AppEntityDTO(AppEntity v)
         {
+            if (v == null)
+                return null;
 
             List<EntityFieldDTO> entityFields = new List<EntityFieldDTO>();
             if (v.EntityFields != null)

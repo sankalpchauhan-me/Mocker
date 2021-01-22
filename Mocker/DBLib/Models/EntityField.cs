@@ -16,6 +16,7 @@ namespace DBLib.Models
         /// Getter and Setter for Field Name
         /// </summary>
         [Required]
+        [RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         public string FieldName { get; set; }
 
         /// <summary>

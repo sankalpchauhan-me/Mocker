@@ -18,6 +18,7 @@ namespace DBLib.Models
         /// Getter and Setter for Entity Name
         /// </summary>
         [Required]
+        [RegularExpression(@"^\S*$", ErrorMessage = "No white space allowed")]
         public string EntityName { get; set; }
 
         /// <summary>

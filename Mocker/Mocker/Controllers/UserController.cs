@@ -65,7 +65,6 @@ namespace Mocker.Controllers
                 DeveloperDTO developerDTO = new DeveloperDTO();
                 if (_repository.UpdateDeveloper(id, modifiedDeveloper))
                 {
-                    //Hard Update
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
                 }
@@ -113,6 +112,7 @@ namespace Mocker.Controllers
             {
                 if (_repository.SetDeveloperActive(id, deactivation))
                 {
+                    //SOFT Delete
                     _repository.Save();
                     return StatusCode(HttpStatusCode.Accepted);
                 }
