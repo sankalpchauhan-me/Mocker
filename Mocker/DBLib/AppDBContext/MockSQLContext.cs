@@ -18,7 +18,6 @@ namespace DBLib.AppDBContext
         public DbSet<AppEntity> AppEntitiys { get; set; }
         public DbSet<EntityField> EntityFields { get; set; }
 
-
         public override int SaveChanges()
         {
             return base.SaveChanges();

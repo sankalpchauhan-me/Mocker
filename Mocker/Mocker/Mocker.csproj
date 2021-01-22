@@ -150,6 +150,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AppsController.cs" />
     <Compile Include="Controllers\EntityController.cs" />
+    <Compile Include="Controllers\FieldController.cs" />
     <Compile Include="Controllers\MainController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Attributes\ModelValidatorAttribute.cs" />

@@ -9,6 +9,7 @@ using System.Linq;
 
 namespace Mocker.Repository
 {
+    //TODO: Modularize
     public class MockerRepository
     {
         private DBAdapter _context;
@@ -25,7 +26,7 @@ namespace Mocker.Repository
 
         public List<Developer> GetAllInfo()
         {
-            return _context.Developers.Include(d => d.DevApps).Where(d=>d.DeactivationFlag.Equals(false))
+            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
                 .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
         }
 
@@ -67,7 +68,9 @@ namespace Mocker.Repository
             {
                 ((MockSQLContext)_context).Set<Developer>().AddOrUpdate(dev);
                 return true;
-            }else{
+            }
+            else
+            {
                 return false;
             }
         }
@@ -200,11 +203,11 @@ namespace Mocker.Repository
             DevApp app = GetDevApp(devId, appName);
             if (app != null)
             {
-                return _context.AppEntitiys.Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d=>d.EntityName.Equals(entityName))
+                return _context.AppEntitiys.Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d => d.EntityName.Equals(entityName))
                     .Include(o => o.EntityFields).FirstOrDefault();
             }
             return null;
-            
+
         }
 
         //Update
@@ -218,7 +221,7 @@ namespace Mocker.Repository
                 appEntity.EntityId = ae.EntityId;
 
                 ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(appEntity);
-                foreach(EntityField ef in appEntity.EntityFields)
+                foreach (EntityField ef in appEntity.EntityFields)
                 {
                     ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
                 }
@@ -256,6 +259,78 @@ namespace Mocker.Repository
             }
         }
 
+        // EntityFields
+
+        //Create
+        public EntityField InsertEntityField(string devId, string appName, string entityName, EntityField entityField)
+        {
+            EntityField app = GetEntityField(devId, appName, entityName, entityField.FieldName);
+            entityField.EntityId = app.EntityId;
+            return _context.EntityFields.Add(app);
+        }
+
+        //Read
+        public EntityField GetEntityField(string devId, string appName, string entityName, string fieldName)
+        {
+            // TODO:
+            //WARNING: ENTITYFIELDNAME IS NOT UNIQUE (Candidate Key?)
+            //Edge Case: Same Field Name and EntityId inside Table could collide
+
+            AppEntity app = GetAppEntity(devId, appName, entityName);
+            if (app != null)
+            {
+                return _context.EntityFields.Where(d => d.DeactivationFlag.Equals(false))
+                    .Where(d => d.EntityId == app.EntityId).Where(d => d.FieldName.Equals(fieldName))
+                    .FirstOrDefault();
+            }
+            return null;
+
+        }
+
+        //Update
+        public bool UpdateEntityField(string devId, string appName, string entityName, EntityField entityField)
+        {
+            EntityField ef = GetEntityField(devId, appName, entityName, entityField.FieldName);
+            if (ef != null)
+            {
+                //Prevent user from changing references
+                entityField.FieldId = ef.FieldId;
+                entityField.EntityId = ef.EntityId;
+
+                ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(entityField);
+                return true;
+            }
+            return false;
+        }
+
+        //Delete
+        public EntityField DeleteEntityField(string devId, string appName, string entityName, string fieldName)
+        {
+            EntityField entityField = GetEntityField(devId, appName, entityName, fieldName);
+            if (entityField != null)
+            {
+                return _context.EntityFields.Remove(entityField);
+            }
+            return null;
+        }
+
+        //Activation
+        public bool SetEntityFieldActive(string devId, string appName, string entityName, string fieldName, bool val)
+        {
+            AppEntity da = GetAppEntity(devId, appName, entityName);
+            EntityField ef = _context.EntityFields.Where(d => d.EntityId == da.EntityId).Where(d => d.FieldName.Equals(fieldName)).FirstOrDefault();
+            //Non Generic
+            if (ef != null && _context.GetType().Equals(typeof(MockSQLContext)))
+            {
+                ef.DeactivationFlag = val;
+                ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
 
         public bool Save()
         {
@@ -263,6 +338,6 @@ namespace Mocker.Repository
             return numberOfEntries != 0 ? true : false;
         }
 
-        
+
     }
 }

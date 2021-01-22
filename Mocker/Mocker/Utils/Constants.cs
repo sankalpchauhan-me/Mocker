@@ -17,5 +17,6 @@ namespace Mocker.Utils
         public const string CONN_STRING = "MockSQLContext";
         public const string GET_APP_BY_NAME = "GetAppByName";
         public const string GET_ENTITY_BY_NAME = "GetEntityByName";
+        public const string GET_FIELD_BY_NAME = "GetFieldByName";
     }
 }
