@@ -16,7 +16,10 @@ namespace Mocker.Repository
 
         public MockerRepository()
         {
-            _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
+            if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("dev"))
+                _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
+            else if(System.Configuration.ConfigurationManager.AppSettings["env"].Equals("test"))
+                _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING_TEST].ConnectionString);
         }
 
         public MockerRepository(DBAdapter context)
