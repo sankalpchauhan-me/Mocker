@@ -12,6 +12,8 @@ namespace DBLib.Adapter
         DbSet<DevApp> DevApps { get; set; }
         DbSet<AppEntity> AppEntitiys { get; set; }
         DbSet<EntityField> EntityFields { get; set; }
+        DbSet<TEntity> Set<TEntity>() where TEntity : class;
         int SaveChanges();
+        //object Entry<T>(T model) where T : class;
     }
 }

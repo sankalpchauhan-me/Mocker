@@ -1,7 +1,7 @@
 ﻿using DBLib.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
-using Mocker.Repository;
+using Mocker.Service;
 using Mocker.Utils;
 using System;
 using System.Data.SqlClient;
@@ -14,10 +14,14 @@ namespace Mocker.Controllers
     [RoutePrefix(Constants.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        private MockerRepository _repository;
+        //private readonly UnitOfWork _unitOfWork;
+        private DeveloperService _developerService;
+
+        //private MockerRepository _repository;
         public UserController()
         {
-            _repository = new MockerRepository();
+            //_repository = new MockerRepository();
+            _developerService = new DeveloperService();
         }
 
         [Route(Constants.REGISTER_ROUTE)]
@@ -26,10 +30,7 @@ namespace Mocker.Controllers
         {
             try
             {
-                Developer insertedDev = _repository.InsertDev(developer);
-                if (insertedDev != null)
-                    _repository.Save();
-                DeveloperDTO dto = insertedDev;
+                DeveloperDTO dto = _developerService.InsertDev(developer);
                 return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), dto);
             }
             catch (SqlException e)
@@ -43,16 +44,14 @@ namespace Mocker.Controllers
         [HttpGet]
         public IHttpActionResult GetRegisteredUser([FromUri] string id)
         {
-            try
+            DeveloperDTO dto = _developerService.GetDeveloperById(id);
+            if (dto != null)
             {
-                DeveloperDTO developerDTO = new DeveloperDTO();
-                Developer d = _repository.GetDeveloperById(id);
-                developerDTO = d;
-                return Ok(developerDTO);
+                return Ok(dto);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
@@ -60,72 +59,48 @@ namespace Mocker.Controllers
         [Route("{id}")]
         public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody] Developer modifiedDeveloper)
         {
-            try
+            if (_developerService.UpdateDeveloper(id, modifiedDeveloper))
             {
-                DeveloperDTO developerDTO = new DeveloperDTO();
-                if (_repository.UpdateDeveloper(id, modifiedDeveloper))
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
         [HttpDelete]
         [Route("{id}")]
+        //Hard Delete
         public IHttpActionResult DeleteRegisteredUser([FromUri] string id)
         {
-            try
+            DeveloperDTO developerDTO = new DeveloperDTO();
+            if (_developerService.DeleteDeveloper(id) != null)
             {
-                DeveloperDTO developerDTO = new DeveloperDTO();
-                if (_repository.DeleteDeveloperById(id) != null)
-                {
-                    //Hard Delete
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
         // Deactivate User
+        //SOFT Delete
         [HttpPatch]
         [Route("{id}")]
         public IHttpActionResult SetUserActivation([FromUri] string id, [FromUri] bool deactivation)
         {
-            try
+            if (_developerService.SetDeveloperActive(id, deactivation))
             {
-                if (_repository.SetDeveloperActive(id, deactivation))
-                {
-                    //SOFT Delete
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
     }
+
 }

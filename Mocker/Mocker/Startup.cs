@@ -34,6 +34,7 @@ namespace Mocker
         public static HttpConfiguration CreateHttpConfiguration()
         {
             var httpConfiguration = new HttpConfiguration();
+            //Enables Attribute Routing
             httpConfiguration.MapHttpAttributeRoutes();
 
             return httpConfiguration;

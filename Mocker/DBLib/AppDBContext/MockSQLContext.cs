@@ -23,6 +23,12 @@ namespace DBLib.AppDBContext
             return base.SaveChanges();
         }
 
+        public override DbSet<TEntity> Set<TEntity>()
+        {
+            return base.Set<TEntity>();
+        }
+
+
         //API
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -31,5 +37,7 @@ namespace DBLib.AppDBContext
             modelBuilder.Entity<AppEntity>().HasMany(d => d.EntityFields).WithRequired(e => e.AppEntitiy).HasForeignKey(e => e.EntityId).WillCascadeOnDelete(true);
             base.OnModelCreating(modelBuilder);
         }
+
+        
     }
 }

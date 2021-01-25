@@ -169,9 +169,12 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repository\DbRepository.cs" />
     <Compile Include="Repository\MockerRepository.cs" />
     <Compile Include="Attributes\NotFoundActionFilterAttribute.cs" />
+    <Compile Include="Service\DeveloperService.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="UnitofWork\UnitOfWork.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="DTOs\AppEntityDTO.cs" />
     <Compile Include="DTOs\DevAppDTO.cs" />
