@@ -9,10 +9,10 @@ namespace Mocker
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+            //Conventional Routing
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}"
-            //defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.IgnoreRoute("{controller}/{action}/{id}");

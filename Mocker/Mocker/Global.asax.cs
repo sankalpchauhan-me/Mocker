@@ -10,23 +10,9 @@ namespace Mocker
 {
     public class WebApiApplication : HttpApplication
     {
-        protected void Application_Start()
-        {
-            // Global Configuration
-            GlobalConfiguration.Configure(WebApiConfig.Register);
-            // Filter Registration
-            FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
-            FilterConfig.RegisterWebApiFilters(GlobalConfiguration.Configuration.Filters);
-            // Route Registration
-            RouteConfig.RegisterRoutes(RouteTable.Routes);
+    //    protected void Application_Start()
+    //    {
 
-            //Database Dropped each time a modification occurs in any model (Migration?)
-            if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("dev"))
-                Database.SetInitializer(new SampleDataSeeder());
-            else if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("test"))
-                Database.SetInitializer(new DropCreateDatabaseAlways<MockSQLContext>());
-
-
-        }
+    //    }
     }
 }
