@@ -7,14 +7,13 @@ using System.Collections.Generic;
 using System.Net.Http;
 using System.Web.Http;
 using System.Web.Http.Results;
-using Xunit;
 
 namespace Mocker.Tests
 {
     [TestClass]
     public class UnitTest2
     {
-        [Fact]
+        [TestMethod]
         public void TestMethod1()
         {
             //Arrange
@@ -25,11 +24,11 @@ namespace Mocker.Tests
 
             //Act
             IHttpActionResult postActionResult = userController.RegisterUser(devs[0]);
-            var contentResult = postActionResult as OkNegotiatedContentResult<Developer>;
+            var contentResult = postActionResult as CreatedNegotiatedContentResult<Developer>;
             Developer dev0 = contentResult.Content;
 
             IHttpActionResult postActionResult1 = userController.RegisterUser(devs[1]);
-            var contentResult1 = postActionResult1 as OkNegotiatedContentResult<Developer>;
+            var contentResult1 = postActionResult1 as CreatedNegotiatedContentResult<Developer>;
             Developer dev1 = contentResult1.Content;
 
 
