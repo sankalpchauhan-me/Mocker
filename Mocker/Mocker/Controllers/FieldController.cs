@@ -1,10 +1,9 @@
 ﻿using DBLib.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
-using Mocker.Repository;
+using Mocker.Service;
 using Mocker.Utils;
 using System;
-using System.Data.SqlClient;
 using System.Net;
 using System.Web.Http;
 
@@ -14,120 +13,68 @@ namespace Mocker.Controllers
     [RoutePrefix(Constants.APP_FIELD_ROUTE_PREFIX)]
     public class FieldController : ApiController
     {
-        private MockerRepository _repository;
+        private EntityFieldService _entityFieldService;
         public FieldController()
         {
-            _repository = new MockerRepository();
+            _entityFieldService = new EntityFieldService();
         }
 
         [HttpPost]
         [Route("{userid}/field/{entityname}")]
-        public IHttpActionResult InsertEntityField([FromUri] string userId, [FromUri] string entityname, [FromBody] EntityField entityField, [FromUri] string appname)
+        public IHttpActionResult InsertEntityField([FromUri] string userId, [FromUri] string entityname, [FromBody] EntityField entityField, [FromUri] string name)
         {
-            try
-            {
-                EntityFieldDTO devAppDTO = new EntityFieldDTO();
-                EntityField da = _repository.InsertEntityField(userId, appname, entityname, entityField);
-                if (da != null)
-                {
-                    _repository.Save();
-                }
-                else
-                {
-                    return BadRequest("This field already exists in the specified entity for this user");
-                }
-                devAppDTO = da;
-                return Created(new Uri(Url.Link(Constants.GET_FIELD_BY_NAME, new { userId, entityname, entityField.FieldName, appname })), devAppDTO);
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            EntityFieldDTO devAppDTO = _entityFieldService.InsertEntityField(userId, name, entityname, entityField);
+            if (devAppDTO != null)
+                return Created(new Uri(Url.Link(Constants.GET_FIELD_BY_NAME, new { userId, entityname, entityField.FieldName, name })), devAppDTO);
+            else
+                return BadRequest("This field already exists in the specified entity for this user");
         }
 
         [HttpGet]
         [NotFoundActionFilter]
         [Route("{userid}/field/{entityname}/{fieldName}", Name = Constants.GET_FIELD_BY_NAME)]
-        public IHttpActionResult GetApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldName, [FromUri] string appname)
+        public IHttpActionResult GetApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldName, [FromUri] string name)
         {
-            try
-            {
-                EntityFieldDTO entityFieldDTO = new EntityFieldDTO();
-                entityFieldDTO = _repository.GetEntityField(userId, appname, entityname, fieldName);
+            EntityFieldDTO entityFieldDTO = new EntityFieldDTO();
+            entityFieldDTO = _entityFieldService.GetEntityField(userId, name, entityname, fieldName);
+            if (entityFieldDTO != null)
                 return Ok(entityFieldDTO);
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            else
+                return NotFound();
         }
 
         [HttpPut]
         [Route("{userid}/field/{entityname}/{fieldname}")]
-        public IHttpActionResult UpdateApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldName, [FromBody] EntityField entityField, [FromUri] string appName)
+        public IHttpActionResult UpdateApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldName, [FromBody] EntityField entityField, [FromUri] string name)
         {
-            try
-            {
-                if (_repository.UpdateEntityField(userId, appName, entityname, fieldName, entityField))
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            if (_entityFieldService.UpdateEntityField(userId, name, entityname, fieldName, entityField))
+                return StatusCode(HttpStatusCode.Accepted);
+            else
+                return NotFound();
         }
 
         [HttpDelete]
         [Route("{userid}/field/{entityname}/{fieldname}")]
-        public IHttpActionResult DeleteApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldname, [FromUri] string appName)
+        public IHttpActionResult DeleteApp([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldname, [FromUri] string name)
         {
-            try
-            {
-                EntityField devApp = _repository.DeleteEntityField(userId, appName, entityname, fieldname);
-                if (devApp != null)
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+
+            EntityFieldDTO devApp = _entityFieldService.DeleteEntityField(userId, name, entityname, fieldname);
+            if (devApp != null)
+                return StatusCode(HttpStatusCode.Accepted);
+            else
+                return NotFound();
+
         }
 
         // Deactivate Field
         [HttpPatch]
         [Route("{userid}/field/{entityname}/{fieldname}")]
-        public IHttpActionResult SetUserActivation([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldname, [FromUri] string appName, [FromUri] bool deactivation)
+        public IHttpActionResult SetUserActivation([FromUri] string userId, [FromUri] string entityname, [FromUri] string fieldname, [FromUri] string name, [FromUri] bool deactivation)
         {
-            try
-            {
-                if (_repository.SetEntityFieldActive(userId, appName, entityname, fieldname, deactivation))
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            if (_entityFieldService.SetEntityFieldActive(userId, name, entityname, fieldname, deactivation))
+                return StatusCode(HttpStatusCode.Accepted);
+            else
+                return NotFound();
         }
     }
 }

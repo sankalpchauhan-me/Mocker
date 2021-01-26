@@ -43,12 +43,12 @@ namespace Mocker.Repository
         //}
 
         ////Read
-        public Developer GetDeveloperById(string id)
-        {
-            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
-                .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
-                .Where(d => d.UserId.Equals(id)).FirstOrDefault();
-        }
+        //public Developer GetDeveloperById(string id)
+        //{
+        //    return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
+        //        .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
+        //        .Where(d => d.UserId.Equals(id)).FirstOrDefault();
+        //}
 
         ////Delete
         //public Developer DeleteDeveloperById(string id)
@@ -119,16 +119,16 @@ namespace Mocker.Repository
         //    return _context.DevApps.Add(devApp);
         //}
         ////Read
-        public DevApp GetDevApp(string devId, string appName)
-        {
-            Developer dev = GetDeveloperById(devId);
-            if (dev != null)
-            {
-                return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId)
-                    .Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
-            }
-            return null;
-        }
+        //public DevApp GetDevApp(string devId, string appName)
+        //{
+        //    Developer dev = GetDeveloperById(devId);
+        //    if (dev != null)
+        //    {
+        //        return _context.DevApps.Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId)
+        //            .Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
+        //    }
+        //    return null;
+        //}
 
         ////Update
         //// TODO: Make Generic & Refactor
@@ -202,22 +202,22 @@ namespace Mocker.Repository
         //}
 
         //Read
-        public AppEntity GetAppEntity(string devId, string appName, string entityName)
-        {
-            // DONE:
-            //ENTITYNAME IS NOT UNIQUE (Candidate Key?)
-            //Edge Case: Same Entity Name and AppId inside Table could collide
-            //Sankalp: Solved in @InsertAppEntity 
+        //public AppEntity GetAppEntity(string devId, string appName, string entityName)
+        //{
+        //    // DONE:
+        //    //ENTITYNAME IS NOT UNIQUE (Candidate Key?)
+        //    //Edge Case: Same Entity Name and AppId inside Table could collide
+        //    //Sankalp: Solved in @InsertAppEntity 
 
-            DevApp app = GetDevApp(devId, appName);
-            if (app != null)
-            {
-                return _context.AppEntitiys.Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d => d.EntityName.Equals(entityName))
-                    .Include(o => o.EntityFields).FirstOrDefault();
-            }
-            return null;
+        //    DevApp app = GetDevApp(devId, appName);
+        //    if (app != null)
+        //    {
+        //        return _context.AppEntitiys.Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d => d.EntityName.Equals(entityName))
+        //            .Include(o => o.EntityFields).FirstOrDefault();
+        //    }
+        //    return null;
 
-        }
+        //}
 
         //Update
         //public bool UpdateAppEntity(string devId, string appName, string entityName, AppEntity appEntity)
@@ -270,88 +270,88 @@ namespace Mocker.Repository
 
         // EntityFields
 
-        //Create
-        public EntityField InsertEntityField(string devId, string appName, string entityName, EntityField entityField)
-        {
-            //Alternative for Candidate Key
-            // Here we will first check wether we have a field that is residing inside this AppEntity with the same name, if yes we will not proceed
-            AppEntity app = GetAppEntity(devId, appName, entityName);
-            entityField.EntityId = app.EntityId;
-            EntityField check = _context.EntityFields.Where(d => d.FieldName.Equals(entityField.FieldName)).Where(d => d.EntityId.Equals(app.EntityId)).FirstOrDefault();
-            if (check != null)
-                return null;
-            return _context.EntityFields.Add(entityField);
-        }
+        ////Create
+        //public EntityField InsertEntityField(string devId, string appName, string entityName, EntityField entityField)
+        //{
+        //    //Alternative for Candidate Key
+        //    // Here we will first check wether we have a field that is residing inside this AppEntity with the same name, if yes we will not proceed
+        //    AppEntity app = GetAppEntity(devId, appName, entityName);
+        //    entityField.EntityId = app.EntityId;
+        //    EntityField check = _context.EntityFields.Where(d => d.FieldName.Equals(entityField.FieldName)).Where(d => d.EntityId.Equals(app.EntityId)).FirstOrDefault();
+        //    if (check != null)
+        //        return null;
+        //    return _context.EntityFields.Add(entityField);
+        //}
 
-        //Read
-        public EntityField GetEntityField(string devId, string appName, string entityName, string fieldName)
-        {
-            // DONE:
-            //WARNING: ENTITYFIELDNAME IS NOT UNIQUE (Candidate Key?)
-            //Edge Case: Same Field Name and EntityId inside Table could collide
-            //Sankalp: Solved in @InsertEntityField
+        ////Read
+        //public EntityField GetEntityField(string devId, string appName, string entityName, string fieldName)
+        //{
+        //    // DONE:
+        //    //WARNING: ENTITYFIELDNAME IS NOT UNIQUE (Candidate Key?)
+        //    //Edge Case: Same Field Name and EntityId inside Table could collide
+        //    //Sankalp: Solved in @InsertEntityField
 
-            AppEntity app = GetAppEntity(devId, appName, entityName);
-            if (app != null)
-            {
-                return _context.EntityFields.Where(d => d.DeactivationFlag.Equals(false))
-                    .Where(d => d.EntityId == app.EntityId).Where(d => d.FieldName.Equals(fieldName))
-                    .FirstOrDefault();
-            }
-            return null;
+        //    AppEntity app = GetAppEntity(devId, appName, entityName);
+        //    if (app != null)
+        //    {
+        //        return _context.EntityFields.Where(d => d.DeactivationFlag.Equals(false))
+        //            .Where(d => d.EntityId == app.EntityId).Where(d => d.FieldName.Equals(fieldName))
+        //            .FirstOrDefault();
+        //    }
+        //    return null;
 
-        }
+        //}
 
-        //Update
-        public bool UpdateEntityField(string devId, string appName, string entityName, string fieldName, EntityField entityField)
-        {
-            EntityField ef = GetEntityField(devId, appName, entityName, fieldName);
-            if (ef != null)
-            {
-                //Prevent user from changing references
-                entityField.FieldId = ef.FieldId;
-                entityField.EntityId = ef.EntityId;
+        ////Update
+        //public bool UpdateEntityField(string devId, string appName, string entityName, string fieldName, EntityField entityField)
+        //{
+        //    EntityField ef = GetEntityField(devId, appName, entityName, fieldName);
+        //    if (ef != null)
+        //    {
+        //        //Prevent user from changing references
+        //        entityField.FieldId = ef.FieldId;
+        //        entityField.EntityId = ef.EntityId;
 
-                ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(entityField);
-                return true;
-            }
-            return false;
-        }
+        //        ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(entityField);
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        //Delete
-        public EntityField DeleteEntityField(string devId, string appName, string entityName, string fieldName)
-        {
-            EntityField entityField = GetEntityField(devId, appName, entityName, fieldName);
-            if (entityField != null)
-            {
-                return _context.EntityFields.Remove(entityField);
-            }
-            return null;
-        }
+        ////Delete
+        //public EntityField DeleteEntityField(string devId, string appName, string entityName, string fieldName)
+        //{
+        //    EntityField entityField = GetEntityField(devId, appName, entityName, fieldName);
+        //    if (entityField != null)
+        //    {
+        //        return _context.EntityFields.Remove(entityField);
+        //    }
+        //    return null;
+        //}
 
-        //Activation
-        public bool SetEntityFieldActive(string devId, string appName, string entityName, string fieldName, bool val)
-        {
-            AppEntity da = GetAppEntity(devId, appName, entityName);
-            EntityField ef = _context.EntityFields.Where(d => d.EntityId == da.EntityId).Where(d => d.FieldName.Equals(fieldName)).FirstOrDefault();
-            //Non Generic
-            if (ef != null && _context.GetType().Equals(typeof(MockSQLContext)))
-            {
-                ef.DeactivationFlag = val;
-                ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        ////Activation
+        //public bool SetEntityFieldActive(string devId, string appName, string entityName, string fieldName, bool val)
+        //{
+        //    AppEntity da = GetAppEntity(devId, appName, entityName);
+        //    EntityField ef = _context.EntityFields.Where(d => d.EntityId == da.EntityId).Where(d => d.FieldName.Equals(fieldName)).FirstOrDefault();
+        //    //Non Generic
+        //    if (ef != null && _context.GetType().Equals(typeof(MockSQLContext)))
+        //    {
+        //        ef.DeactivationFlag = val;
+        //        ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
-        public bool Save()
-        {
-            int numberOfEntries = _context.SaveChanges();
-            return numberOfEntries != 0 ? true : false;
-        }
+        //public bool Save()
+        //{
+        //    int numberOfEntries = _context.SaveChanges();
+        //    return numberOfEntries != 0 ? true : false;
+        //}
 
 
     }
