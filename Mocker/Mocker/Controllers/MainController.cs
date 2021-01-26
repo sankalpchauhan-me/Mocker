@@ -2,6 +2,7 @@
 using Mocker.DTOs;
 using Mocker.Filter;
 using Mocker.Repository;
+using Mocker.Service;
 using Mocker.Utils;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -14,30 +15,22 @@ namespace Mocker.Controllers
     public class MainController : ApiController
     {
 
-        private MockerRepository _repository;
+        private MainService _service;
 
         public MainController()
         {
-            _repository = new MockerRepository();
+            _service = new MainService();
         }
 
         [Route(Constants.DEFAULT_ROUTE)]
         public IHttpActionResult GetAll()
         {
-            try
-            {
-                List<Developer> fulldata = _repository.GetAllInfo();
-                List<DeveloperDTO> developerDTO = new List<DeveloperDTO>();
-                foreach (Developer d in fulldata)
-                {
-                    developerDTO.Add(d);
-                }
-                return Ok(developerDTO);
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            List<DeveloperDTO> developerDTOs = new List<DeveloperDTO>();
+            developerDTOs = _service.GetAll();
+            if (developerDTOs != null)
+                return Ok(developerDTOs);
+            else
+                return NotFound();
         }
     }
 }

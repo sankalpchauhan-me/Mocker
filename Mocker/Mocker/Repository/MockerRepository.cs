@@ -9,29 +9,29 @@ using System.Linq;
 
 namespace Mocker.Repository
 {
-    //TODO: Modularize
+    //TODO: Delete
     public class MockerRepository
     {
-        private DBAdapter _context;
+        //private DBAdapter _context;
 
-        public MockerRepository()
-        {
-            if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("dev"))
-                _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
-            else if(System.Configuration.ConfigurationManager.AppSettings["env"].Equals("test"))
-                _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING_TEST].ConnectionString);
-        }
+        //public MockerRepository()
+        //{
+        //    if (System.Configuration.ConfigurationManager.AppSettings["env"].Equals("dev"))
+        //        _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
+        //    else if(System.Configuration.ConfigurationManager.AppSettings["env"].Equals("test"))
+        //        _context = new MockSQLContext(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING_TEST].ConnectionString);
+        //}
 
-        public MockerRepository(DBAdapter context)
-        {
-            _context = context;
-        }
+        //public MockerRepository(DBAdapter context)
+        //{
+        //    _context = context;
+        //}
 
-        public List<Developer> GetAllInfo()
-        {
-            return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
-                .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
-        }
+        //public List<Developer> GetAllInfo()
+        //{
+        //    return _context.Developers.Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
+        //        .Include(d => d.DevApps.Select(o => o.AppEntitiys)).Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields))).ToList();
+        //}
 
         //Developers
 

@@ -176,6 +176,7 @@
     <Compile Include="Service\DevAppService.cs" />
     <Compile Include="Service\DeveloperService.cs" />
     <Compile Include="Service\EntityFieldService.cs" />
+    <Compile Include="Service\MainService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />
     <Compile Include="Utils\Constants.cs" />

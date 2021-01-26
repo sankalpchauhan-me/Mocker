@@ -4,7 +4,6 @@ using Mocker.Filter;
 using Mocker.Service;
 using Mocker.Utils;
 using System;
-using System.Data.SqlClient;
 using System.Net;
 using System.Web.Http;
 
@@ -27,7 +26,6 @@ namespace Mocker.Controllers
             DevAppDTO devAppDTO = new DevAppDTO();
             devAppDTO = _devAppService.InsertDevApp(userid, devApp);
             return Created(new Uri(Url.Link(Constants.GET_APP_BY_NAME, new { userid, name = devAppDTO.AppName })), devAppDTO);
-
         }
 
         [HttpGet]
@@ -37,13 +35,9 @@ namespace Mocker.Controllers
         {
             DevAppDTO dto = _devAppService.GetDevAppById(userId, name);
             if (dto != null)
-            {
                 return Ok(dto);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         [HttpPut]
@@ -51,13 +45,9 @@ namespace Mocker.Controllers
         public IHttpActionResult UpdateApp([FromUri] string userId, [FromUri] string name, [FromBody] DevApp devApp)
         {
             if (_devAppService.UpdateDevApp(userId, name, devApp))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         [HttpDelete]
@@ -65,13 +55,9 @@ namespace Mocker.Controllers
         public IHttpActionResult DeleteApp([FromUri] string userId, [FromUri] string name)
         {
             if (_devAppService.DeleteDevApp(userId, name) != null)
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         // Deactivate App
@@ -80,13 +66,9 @@ namespace Mocker.Controllers
         public IHttpActionResult SetUserActivation([FromUri] string userId, [FromUri] string name, [FromUri] bool deactivation)
         {
             if (_devAppService.SetDevAppActive(userId, name, deactivation))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
     }
 }

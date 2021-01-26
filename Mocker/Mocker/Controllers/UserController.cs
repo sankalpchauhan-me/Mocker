@@ -36,13 +36,9 @@ namespace Mocker.Controllers
         {
             DeveloperDTO dto = _developerService.GetDeveloperById(id);
             if (dto != null)
-            {
                 return Ok(dto);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         [HttpPut]
@@ -50,13 +46,9 @@ namespace Mocker.Controllers
         public IHttpActionResult UpdateRegisteredUser([FromUri] string id, [FromBody] Developer modifiedDeveloper)
         {
             if (_developerService.UpdateDeveloper(id, modifiedDeveloper))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         [HttpDelete]
@@ -65,13 +57,9 @@ namespace Mocker.Controllers
         public IHttpActionResult DeleteRegisteredUser([FromUri] string id)
         {
             if (_developerService.DeleteDeveloper(id) != null)
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         // Deactivate User
@@ -81,13 +69,9 @@ namespace Mocker.Controllers
         public IHttpActionResult SetUserActivation([FromUri] string id, [FromUri] bool deactivation)
         {
             if (_developerService.SetDeveloperActive(id, deactivation))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
     }

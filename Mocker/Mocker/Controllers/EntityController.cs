@@ -24,17 +24,11 @@ namespace Mocker.Controllers
         [Route("{userid}/entity")]
         public IHttpActionResult InsertAppEntity([FromUri] string userid, [FromUri] string name, [FromBody] AppEntity appEntity)
         {
-            AppEntityDTO appEntityDTO = new AppEntityDTO();
             AppEntityDTO da = _appEntityService.InsertAppEntity(userid, name, appEntity);
             if (da != null)
-            {
-                appEntityDTO = da;
-                return Created(new Uri(Url.Link(Constants.GET_ENTITY_BY_NAME, new { userid, name, entityname = appEntityDTO.EntityName })), appEntityDTO);
-            }
+                return Created(new Uri(Url.Link(Constants.GET_ENTITY_BY_NAME, new { userid, name, entityname = da.EntityName })), da);
             else
-            {
                 return BadRequest("This entity already exists in the specified app for this user");
-            }
 
         }
 
@@ -47,14 +41,9 @@ namespace Mocker.Controllers
             AppEntityDTO appEntityDTO = new AppEntityDTO();
             appEntityDTO = _appEntityService.GetAppEntity(userid, name, entityname);
             if (appEntityDTO != null)
-            {
                 return Ok(appEntityDTO);
-            }
             else
-            {
                 return NotFound();
-            }
-
         }
 
         //Update 
@@ -63,13 +52,9 @@ namespace Mocker.Controllers
         public IHttpActionResult UpdateAppEntity([FromUri] string userId, [FromUri] string entityname, [FromUri] string name, [FromBody] AppEntity appEntity)
         {
             if (_appEntityService.UpdateAppEntity(userId, name, entityname, appEntity))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
 
         }
 
@@ -80,13 +65,9 @@ namespace Mocker.Controllers
         {
             AppEntityDTO appEntity = _appEntityService.DeleteAppEntity(userid, name, entityname);
             if (appEntity != null)
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
 
         //Activate
@@ -96,13 +77,9 @@ namespace Mocker.Controllers
         {
 
             if (_appEntityService.SetAppEntityActive(userId, name, entityname, deactivation))
-            {
                 return StatusCode(HttpStatusCode.Accepted);
-            }
             else
-            {
                 return NotFound();
-            }
         }
     }
 }
