@@ -22,11 +22,11 @@ namespace Mocker.Controllers
 
         [HttpPost]
         [Route("{userid}/app")]
-        public IHttpActionResult InsertApp([FromUri] string userId, [FromBody] DevApp devApp)
+        public IHttpActionResult InsertApp([FromUri] string userid, [FromBody] DevApp devApp)
         {
             DevAppDTO devAppDTO = new DevAppDTO();
-            devAppDTO = _devAppService.InsertDevApp(userId, devApp);
-            return Created(new Uri(Url.Link(Constants.GET_APP_BY_NAME, new { userId, name = devAppDTO.AppName })), devAppDTO);
+            devAppDTO = _devAppService.InsertDevApp(userid, devApp);
+            return Created(new Uri(Url.Link(Constants.GET_APP_BY_NAME, new { userid, name = devAppDTO.AppName })), devAppDTO);
 
         }
 

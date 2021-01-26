@@ -189,17 +189,17 @@ namespace Mocker.Repository
         //AppEntity
 
         //Create
-        public AppEntity InsertAppEntity(string devId, string appName, AppEntity appEntity)
-        {
-            //Alternative for Candidate Key
-            // Here we will first check wether we have an entity that is residing inside the app with the same name, if yes we will not proceed
-            DevApp app = GetDevApp(devId, appName);
-            appEntity.AppId = app.AppId;
-            AppEntity check = _context.AppEntitiys.Where(d => d.EntityName.Equals(appEntity.EntityName)).Where(d => d.AppId.Equals(app.AppId)).FirstOrDefault();
-            if (check != null)
-                return null;
-            return _context.AppEntitiys.Add(appEntity);
-        }
+        //public AppEntity InsertAppEntity(string devId, string appName, AppEntity appEntity)
+        //{
+        //    //Alternative for Candidate Key
+        //    // Here we will first check wether we have an entity that is residing inside the app with the same name, if yes we will not proceed
+        //    DevApp app = GetDevApp(devId, appName);
+        //    appEntity.AppId = app.AppId;
+        //    AppEntity check = _context.AppEntitiys.Where(d => d.EntityName.Equals(appEntity.EntityName)).Where(d => d.AppId.Equals(app.AppId)).FirstOrDefault();
+        //    if (check != null)
+        //        return null;
+        //    return _context.AppEntitiys.Add(appEntity);
+        //}
 
         //Read
         public AppEntity GetAppEntity(string devId, string appName, string entityName)
@@ -220,53 +220,53 @@ namespace Mocker.Repository
         }
 
         //Update
-        public bool UpdateAppEntity(string devId, string appName, string entityName, AppEntity appEntity)
-        {
-            AppEntity ae = GetAppEntity(devId, appName, entityName);
-            if (ae != null)
-            {
-                //Prevent user from changing references
-                appEntity.AppId = ae.AppId;
-                appEntity.EntityId = ae.EntityId;
+        //public bool UpdateAppEntity(string devId, string appName, string entityName, AppEntity appEntity)
+        //{
+        //    AppEntity ae = GetAppEntity(devId, appName, entityName);
+        //    if (ae != null)
+        //    {
+        //        //Prevent user from changing references
+        //        appEntity.AppId = ae.AppId;
+        //        appEntity.EntityId = ae.EntityId;
 
-                ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(appEntity);
-                foreach (EntityField ef in appEntity.EntityFields)
-                {
-                    ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
-                }
-                return true;
-            }
-            return false;
-        }
+        //        ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(appEntity);
+        //        foreach (EntityField ef in appEntity.EntityFields)
+        //        {
+        //            ((MockSQLContext)_context).Set<EntityField>().AddOrUpdate(ef);
+        //        }
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        //Delete
-        public AppEntity DeleteAppEntity(string devId, string appName, string entityName)
-        {
-            AppEntity appEntity = GetAppEntity(devId, appName, entityName);
-            if (appEntity != null)
-            {
-                return _context.AppEntitiys.Remove(appEntity);
-            }
-            return null;
-        }
+        ////Delete
+        //public AppEntity DeleteAppEntity(string devId, string appName, string entityName)
+        //{
+        //    AppEntity appEntity = GetAppEntity(devId, appName, entityName);
+        //    if (appEntity != null)
+        //    {
+        //        return _context.AppEntitiys.Remove(appEntity);
+        //    }
+        //    return null;
+        //}
 
-        //Activate
-        public bool SetAppEntityActive(string devId, string appName, string entityName, bool val)
-        {
-            DevApp da = GetDevApp(devId, appName);
-            AppEntity ae = _context.AppEntitiys.Where(d => d.AppId == da.AppId).Where(d => d.EntityName.Equals(entityName)).FirstOrDefault();
-            //Non Generic
-            if (ae != null && _context.GetType().Equals(typeof(MockSQLContext)))
-            {
-                ae.DeactivationFlag = val;
-                ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(ae);
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
+        ////Activate
+        //public bool SetAppEntityActive(string devId, string appName, string entityName, bool val)
+        //{
+        //    DevApp da = GetDevApp(devId, appName);
+        //    AppEntity ae = _context.AppEntitiys.Where(d => d.AppId == da.AppId).Where(d => d.EntityName.Equals(entityName)).FirstOrDefault();
+        //    //Non Generic
+        //    if (ae != null && _context.GetType().Equals(typeof(MockSQLContext)))
+        //    {
+        //        ae.DeactivationFlag = val;
+        //        ((MockSQLContext)_context).Set<AppEntity>().AddOrUpdate(ae);
+        //        return true;
+        //    }
+        //    else
+        //    {
+        //        return false;
+        //    }
+        //}
 
         // EntityFields
 
