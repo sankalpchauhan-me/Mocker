@@ -172,6 +172,7 @@
     <Compile Include="Repository\DbRepository.cs" />
     <Compile Include="Repository\MockerRepository.cs" />
     <Compile Include="Attributes\NotFoundActionFilterAttribute.cs" />
+    <Compile Include="Service\DevAppService.cs" />
     <Compile Include="Service\DeveloperService.cs" />
     <Compile Include="Startup.cs" />
     <Compile Include="UnitofWork\UnitOfWork.cs" />

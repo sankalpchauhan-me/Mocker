@@ -4,7 +4,6 @@ using Mocker.Filter;
 using Mocker.Service;
 using Mocker.Utils;
 using System;
-using System.Data.SqlClient;
 using System.Net;
 using System.Web.Http;
 
@@ -14,13 +13,10 @@ namespace Mocker.Controllers
     [RoutePrefix(Constants.USER_ROUTE_PREFIX)]
     public class UserController : ApiController
     {
-        //private readonly UnitOfWork _unitOfWork;
         private DeveloperService _developerService;
 
-        //private MockerRepository _repository;
         public UserController()
         {
-            //_repository = new MockerRepository();
             _developerService = new DeveloperService();
         }
 
@@ -28,15 +24,9 @@ namespace Mocker.Controllers
         [HttpPost]
         public IHttpActionResult RegisterUser([FromBody] Developer developer)
         {
-            try
-            {
-                DeveloperDTO dto = _developerService.InsertDev(developer);
-                return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), dto);
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            DeveloperDTO dto = _developerService.InsertDev(developer);
+            return Created(new Uri(Url.Link(Constants.GET_DEVELOPER_BY_ID, new { id = developer.UserId })), dto);
+
         }
 
         [NotFoundActionFilter]
@@ -74,7 +64,6 @@ namespace Mocker.Controllers
         //Hard Delete
         public IHttpActionResult DeleteRegisteredUser([FromUri] string id)
         {
-            DeveloperDTO developerDTO = new DeveloperDTO();
             if (_developerService.DeleteDeveloper(id) != null)
             {
                 return StatusCode(HttpStatusCode.Accepted);

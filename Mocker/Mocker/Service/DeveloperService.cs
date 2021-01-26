@@ -96,7 +96,7 @@ namespace Mocker.Service
                 Developer developer = _unitOfWork.DeveloperRepository.GetWithInclude().Where(d => d.UserId.Equals(id)).FirstOrDefault();
                 if (developer != null)
                 {
-                     _unitOfWork.DeveloperRepository.Delete(developer);
+                     dto = _unitOfWork.DeveloperRepository.Delete(developer);
                     _unitOfWork.Save();
                 }
 
@@ -111,17 +111,24 @@ namespace Mocker.Service
         //Activate
         public bool SetDeveloperActive(string id, bool val)
         {
-            Developer dev = _unitOfWork.DeveloperRepository.GetWithInclude().Where(d => d.UserId.Equals(id)).FirstOrDefault();
-            dev.DeactivationFlag = val;
+            try
+            {
+                Developer dev = _unitOfWork.DeveloperRepository.GetWithInclude().Where(d => d.UserId.Equals(id)).FirstOrDefault();
+                dev.DeactivationFlag = val;
 
-            if (dev != null)
+                if (dev != null)
+                {
+                    _unitOfWork.DeveloperRepository.Update(dev);
+                    _unitOfWork.Save();
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            } catch (Exception e)
             {
-                _unitOfWork.DeveloperRepository.Update(dev);
-                return true;
-            }
-            else
-            {
-                return false;
+                throw e;
             }
         }
 

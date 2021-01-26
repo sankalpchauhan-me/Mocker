@@ -1,7 +1,7 @@
 ﻿using DBLib.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
-using Mocker.Repository;
+using Mocker.Service;
 using Mocker.Utils;
 using System;
 using System.Data.SqlClient;
@@ -14,31 +14,20 @@ namespace Mocker.Controllers
     [RoutePrefix(Constants.APP_ROUTE_PREFIX)]
     public class AppsController : ApiController
     {
-        private MockerRepository _repository;
+        private DevAppService _devAppService;
         public AppsController()
         {
-            _repository = new MockerRepository();
+            _devAppService = new DevAppService();
         }
 
         [HttpPost]
         [Route("{userid}/app")]
         public IHttpActionResult InsertApp([FromUri] string userId, [FromBody] DevApp devApp)
         {
-            try
-            {
-                DevAppDTO devAppDTO = new DevAppDTO();
-                DevApp da = _repository.InsertDevApp(userId, devApp);
-                if (da != null)
-                {
-                    _repository.Save();
-                }
-                devAppDTO = da;
-                return Created(new Uri(Url.Link(Constants.GET_APP_BY_NAME, new { userId, name = devAppDTO.AppName })), devAppDTO);
-            }
-            catch (SqlException e)
-            {
-                return InternalServerError(e);
-            }
+            DevAppDTO devAppDTO = new DevAppDTO();
+            devAppDTO = _devAppService.InsertDevApp(userId, devApp);
+            return Created(new Uri(Url.Link(Constants.GET_APP_BY_NAME, new { userId, name = devAppDTO.AppName })), devAppDTO);
+
         }
 
         [HttpGet]
@@ -46,15 +35,14 @@ namespace Mocker.Controllers
         [Route("{userid}/app", Name = Constants.GET_APP_BY_NAME)]
         public IHttpActionResult GetApp([FromUri] string userId, [FromUri] string name)
         {
-            try
+            DevAppDTO dto = _devAppService.GetDevAppById(userId, name);
+            if (dto != null)
             {
-                DevAppDTO devAppDTO = new DevAppDTO();
-                devAppDTO = _repository.GetDevApp(userId, name);
-                return Ok(devAppDTO);
+                return Ok(dto);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
@@ -62,21 +50,13 @@ namespace Mocker.Controllers
         [Route("{userid}/app")]
         public IHttpActionResult UpdateApp([FromUri] string userId, [FromUri] string name, [FromBody] DevApp devApp)
         {
-            try
+            if (_devAppService.UpdateDevApp(userId, name, devApp))
             {
-                if (_repository.UpdateDevApp(userId, name, devApp))
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
@@ -84,22 +64,13 @@ namespace Mocker.Controllers
         [Route("{userid}/app")]
         public IHttpActionResult DeleteApp([FromUri] string userId, [FromUri] string name)
         {
-            try
+            if (_devAppService.DeleteDevApp(userId, name) != null)
             {
-                DevApp devApp = _repository.DeleteDevApp(userId, name);
-                if (devApp != null)
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
 
@@ -108,21 +79,13 @@ namespace Mocker.Controllers
         [Route("{userid}/app")]
         public IHttpActionResult SetUserActivation([FromUri] string userId, [FromUri] string name, [FromUri] bool deactivation)
         {
-            try
+            if (_devAppService.SetDevAppActive(userId, name, deactivation))
             {
-                if (_repository.SetDevAppActive(userId, name, deactivation))
-                {
-                    _repository.Save();
-                    return StatusCode(HttpStatusCode.Accepted);
-                }
-                else
-                {
-                    return NotFound();
-                }
+                return StatusCode(HttpStatusCode.Accepted);
             }
-            catch (SqlException e)
+            else
             {
-                return InternalServerError(e);
+                return NotFound();
             }
         }
     }
