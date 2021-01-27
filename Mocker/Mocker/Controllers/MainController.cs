@@ -1,11 +1,9 @@
 ﻿using DBLib.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
-using Mocker.Repository;
 using Mocker.Service;
 using Mocker.Utils;
 using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Web.Http;
 
 namespace Mocker.Controllers

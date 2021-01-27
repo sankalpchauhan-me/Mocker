@@ -169,8 +169,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\DbRepository.cs" />
-    <Compile Include="Repository\MockerRepository.cs" />
     <Compile Include="Attributes\NotFoundActionFilterAttribute.cs" />
     <Compile Include="Service\AppEntityService.cs" />
     <Compile Include="Service\DevAppService.cs" />
@@ -179,7 +177,6 @@
     <Compile Include="Service\MainService.cs" />
     <Compile Include="Service\Service.cs" />
     <Compile Include="Startup.cs" />
-    <Compile Include="UnitofWork\UnitOfWork.cs" />
     <Compile Include="Utils\Constants.cs" />
     <Compile Include="DTOs\AppEntityDTO.cs" />
     <Compile Include="DTOs\DevAppDTO.cs" />
