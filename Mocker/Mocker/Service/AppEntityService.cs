@@ -8,13 +8,11 @@ using System.Linq;
 
 namespace Mocker.Service
 {
-    public class AppEntityService
+    public class AppEntityService : Service
     {
-        private readonly UnitOfWork _unitOfWork;
 
-        public AppEntityService()
+        public AppEntityService(): base()
         {
-            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
         //Create
@@ -39,7 +37,7 @@ namespace Mocker.Service
         }
 
         //Read
-        public AppEntityDTO GetAppEntity(string devId, string appName, string entityName)
+        public override AppEntityDTO GetAppEntity(string devId, string appName, string entityName)
         {
 
             DevAppDTO app = GetDevAppById(devId, appName);
@@ -121,47 +119,6 @@ namespace Mocker.Service
                 throw e;
             }
             return false;
-        }
-
-
-        //Helpers
-        private DeveloperDTO GetDeveloperById(string id)
-        {
-            DeveloperDTO dto = new DeveloperDTO();
-            try
-            {
-                dto = _unitOfWork.DeveloperRepository.GetWithInclude()
-                     .Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
-                     .Where(d => d.UserId.Equals(id)).FirstOrDefault();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return dto;
-        }
-
-        private DevAppDTO GetDevAppById(string devId, string appName)
-        {
-            DevAppDTO dto = new DevAppDTO();
-            try
-            {
-                DeveloperDTO dev = GetDeveloperById(devId);
-                if (dev != null)
-                {
-                    return _unitOfWork.AppRepository.GetWithInclude().Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId)
-                        .Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
-                }
-                return null;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
         }
     }
 }

@@ -10,13 +10,11 @@ using System.Web;
 
 namespace Mocker.Service
 {
-    public class MainService
+    public class MainService : Service
     {
-        private readonly UnitOfWork _unitOfWork;
 
-        public MainService()
+        public MainService() : base()
         {
-            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
         public List<DeveloperDTO> GetAll()

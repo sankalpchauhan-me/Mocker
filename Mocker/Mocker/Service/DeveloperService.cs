@@ -8,13 +8,12 @@ using System.Linq;
 
 namespace Mocker.Service
 {
-    public class DeveloperService
+    public class DeveloperService : Service
     {
-        private readonly UnitOfWork _unitOfWork;
 
-        public DeveloperService()
+        public DeveloperService() : base()
         {
-            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
+            
         }
 
         //Create
@@ -36,7 +35,7 @@ namespace Mocker.Service
         }
 
         //Read
-        public DeveloperDTO GetDeveloperById(string id)
+        public override DeveloperDTO GetDeveloperById(string id)
         {
             DeveloperDTO dto = new DeveloperDTO();
             try

@@ -20,9 +20,12 @@ namespace Mocker.DTOs
                 return null;
 
             List<DevAppDTO> devApps = new List<DevAppDTO>();
-            foreach (DevApp d in v.DevApps)
+            if (v.DevApps != null)
             {
-                devApps.Add(d);
+                foreach (DevApp d in v.DevApps)
+                {
+                    devApps.Add(d);
+                }
             }
             return new DeveloperDTO
             {

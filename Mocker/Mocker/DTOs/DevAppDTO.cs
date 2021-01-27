@@ -17,9 +17,12 @@ namespace Mocker.DTOs
                 return null;
 
             List<AppEntityDTO> appEntitys = new List<AppEntityDTO>();
-            foreach (AppEntity d in v.AppEntitiys)
+            if (v.AppEntitiys != null)
             {
-                appEntitys.Add(d);
+                foreach (AppEntity d in v.AppEntitiys)
+                {
+                    appEntitys.Add(d);
+                }
             }
             return new DevAppDTO
             {

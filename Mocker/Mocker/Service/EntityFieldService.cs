@@ -10,14 +10,11 @@ using System.Web;
 
 namespace Mocker.Service
 {
-    public class EntityFieldService
+    public class EntityFieldService : Service
     {
 
-        private readonly UnitOfWork _unitOfWork;
-
-        public EntityFieldService()
+        public EntityFieldService() : base()
         {
-            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
         //Create
@@ -33,7 +30,8 @@ namespace Mocker.Service
                     return null;
                 dto = _unitOfWork.FieldRepository.Insert(entityField);
                 _unitOfWork.Save();
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -54,7 +52,7 @@ namespace Mocker.Service
                         .FirstOrDefault();
                 }
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 throw e;
             }
@@ -76,7 +74,8 @@ namespace Mocker.Service
                     _unitOfWork.FieldRepository.Update(entityField);
                     _unitOfWork.Save();
                     return true;
-                } catch(Exception e)
+                }
+                catch (Exception e)
                 {
                     throw e;
                 }
@@ -98,7 +97,8 @@ namespace Mocker.Service
                     _unitOfWork.Save();
                     return dto;
                 }
-            } catch(Exception e)
+            }
+            catch (Exception e)
             {
                 throw e;
             }
@@ -119,71 +119,12 @@ namespace Mocker.Service
                     _unitOfWork.Save();
                     return true;
                 }
-            } catch(Exception e)
-            {
-                throw e;
-            }
-            return false;
-        }
-
-        //Helpers
-        private AppEntityDTO GetAppEntity(string devId, string appName, string entityName)
-        {
-
-            DevAppDTO app = GetDevAppById(devId, appName);
-            try
-            {
-                if (app != null)
-                {
-                    return _unitOfWork.EntityRepository.GetWithInclude().Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.AppId == app.AppId).Where(d => d.EntityName.Equals(entityName))
-                        .Include(o => o.EntityFields).FirstOrDefault();
-                }
             }
             catch (Exception e)
             {
                 throw e;
             }
-            return null;
-
-        }
-
-        private DeveloperDTO GetDeveloperById(string id)
-        {
-            DeveloperDTO dto = new DeveloperDTO();
-            try
-            {
-                dto = _unitOfWork.DeveloperRepository.GetWithInclude()
-                     .Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
-                     .Where(d => d.UserId.Equals(id)).FirstOrDefault();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return dto;
-        }
-
-        private DevAppDTO GetDevAppById(string devId, string appName)
-        {
-            DevAppDTO dto = new DevAppDTO();
-            try
-            {
-                DeveloperDTO dev = GetDeveloperById(devId);
-                if (dev != null)
-                {
-                    return _unitOfWork.AppRepository.GetWithInclude().Include(d => d.AppEntitiys).Where(d => d.DeactivationFlag.Equals(false)).Where(d => d.DevId == dev.DevId)
-                        .Include(d => d.AppEntitiys.Select(o => o.EntityFields)).Where(d => d.AppName.Equals(appName)).FirstOrDefault();
-                }
-                return null;
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
+            return false;
         }
     }
 }

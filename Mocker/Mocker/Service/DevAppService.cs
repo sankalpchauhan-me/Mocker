@@ -8,33 +8,11 @@ using System.Linq;
 
 namespace Mocker.Service
 {
-    public class DevAppService
+    public class DevAppService : Service
     {
-        private readonly UnitOfWork _unitOfWork;
 
-        public DevAppService()
+        public DevAppService() : base()
         {
-            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
-        }
-
-        //Helper
-        private DeveloperDTO GetDeveloperById(string id)
-        {
-            DeveloperDTO dto = new DeveloperDTO();
-            try
-            {
-                dto = _unitOfWork.DeveloperRepository.GetWithInclude()
-                     .Include(d => d.DevApps).Where(d => d.DeactivationFlag.Equals(false))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys))
-                     .Include(d => d.DevApps.Select(o => o.AppEntitiys.Select(e => e.EntityFields)))
-                     .Where(d => d.UserId.Equals(id)).FirstOrDefault();
-
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            return dto;
         }
 
         //Create
@@ -56,7 +34,7 @@ namespace Mocker.Service
         }
 
         //Read
-        public DevAppDTO GetDevAppById(string devId, string appName)
+        public override DevAppDTO GetDevAppById(string devId, string appName)
         {
             DevAppDTO dto = new DevAppDTO();
             try
