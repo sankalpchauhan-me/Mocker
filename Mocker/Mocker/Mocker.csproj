@@ -203,6 +203,10 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\DataInteractionLayer\DataInteractionLayer.csproj">
+      <Project>{f5bc57db-e6ee-4c8b-879a-8ee3df80dc68}</Project>
+      <Name>DataInteractionLayer</Name>
+    </ProjectReference>
     <ProjectReference Include="..\DBLib\DBLib.csproj">
       <Project>{9933298b-4c47-4c2d-a768-2dec4590c8ab}</Project>
       <Name>DBLib</Name>

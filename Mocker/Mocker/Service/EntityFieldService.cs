@@ -1,6 +1,7 @@
-﻿using DBLib.Models;
+﻿using DataInteractionLayer.UnitofWork;
+using DBLib.Models;
 using Mocker.DTOs;
-using Mocker.UnitofWork;
+using Mocker.Utils;
 using System;
 using System.Collections.Generic;
 using System.Data.Entity;
@@ -16,7 +17,7 @@ namespace Mocker.Service
 
         public EntityFieldService()
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
         //Create

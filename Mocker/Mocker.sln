@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DBLib", "DBLib\DBLib.csproj
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mocker.Tests", "Mocker.Tests\Mocker.Tests.csproj", "{E52B55B8-DDCB-4344-868C-8A6F59F77730}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataInteractionLayer", "DataInteractionLayer\DataInteractionLayer.csproj", "{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{E52B55B8-DDCB-4344-868C-8A6F59F77730}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E52B55B8-DDCB-4344-868C-8A6F59F77730}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E52B55B8-DDCB-4344-868C-8A6F59F77730}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

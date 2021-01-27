@@ -1,6 +1,7 @@
-﻿using DBLib.Models;
+﻿using DataInteractionLayer.UnitofWork;
+using DBLib.Models;
 using Mocker.DTOs;
-using Mocker.UnitofWork;
+using Mocker.Utils;
 using System;
 using System.Data.Entity;
 using System.Linq;
@@ -13,7 +14,7 @@ namespace Mocker.Service
 
         public DeveloperService()
         {
-            _unitOfWork = new UnitOfWork();
+            _unitOfWork = new UnitOfWork(System.Configuration.ConfigurationManager.ConnectionStrings[Constants.CONN_STRING].ConnectionString);
         }
 
         //Create
