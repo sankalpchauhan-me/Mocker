@@ -1,9 +1,12 @@
-﻿using DBLib.Utils;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DBLib.Models
+namespace DBModels.Models
 {
     public class AppEntity
     {
@@ -30,7 +33,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a DevApp, Dependent on DevApp
         /// </summary>
-        [ForeignKey(Constants.FK_APP_ENTITY)]
+        [ForeignKey(ModelConstants.FK_APP_ENTITY)]
         public DevApp DevApp { get; set; }
 
         public bool DeactivationFlag { get; set; }

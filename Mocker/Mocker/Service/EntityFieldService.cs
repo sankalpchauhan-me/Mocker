@@ -1,5 +1,5 @@
 ﻿using DataInteractionLayer.UnitofWork;
-using DBLib.Models;
+using DBModels.Models;
 using Mocker.DTOs;
 using Mocker.Utils;
 using System;

@@ -1,4 +1,6 @@
-﻿using DBLib.Models;
+﻿
+
+using DBModels.Models;
 
 namespace Mocker.DTOs
 {

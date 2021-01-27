@@ -1,13 +1,13 @@
-﻿using DBLib.Utils;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace DBLib.Models
+namespace DBModels.Models
 {
-    /// <summary>
-    /// Model class foe DevApp
-    /// </summary>
     public class DevApp
     {
         /// <summary>
@@ -32,7 +32,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a developer, App is dependent on developer
         /// </summary>
-        [ForeignKey(Constants.FK_DEV_APP)]
+        [ForeignKey(ModelConstants.FK_DEV_APP)]
         public Developer Developer { get; set; }
 
         public bool DeactivationFlag { get; set; }

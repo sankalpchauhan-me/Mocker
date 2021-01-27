@@ -1,4 +1,4 @@
-﻿using DBLib.Models;
+﻿using DBModels.Models;
 using Mocker.DTOs;
 using Mocker.Filter;
 using Mocker.Service;

@@ -1,10 +1,14 @@
-﻿using DBLib.Utils;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DBLib.Models
+namespace DBModels.Models
 {
-    public class EntityField
+     public class EntityField
     {
         /// <summary>
         /// Getter and Setter for Feild Id
@@ -36,7 +40,7 @@ namespace DBLib.Models
         /// <summary>
         /// Must have a AppEntity, Dependent on AppEntity
         /// </summary>
-        [ForeignKey(Constants.FK_ENTITY_FIELD)]
+        [ForeignKey(ModelConstants.FK_ENTITY_FIELD)]
         public AppEntity AppEntitiy { get; set; }
     }
 }

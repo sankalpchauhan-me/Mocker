@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DBLib.Utils
+namespace DBModels
 {
-    public static class Constants
+    public static class ModelConstants
     {
         public const string FK_APP_ENTITY = "AppId";
         public const string FK_DEV_APP = "DevId";

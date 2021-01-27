@@ -54,17 +54,12 @@
     <Compile Include="Adapter\DBAdapter.cs" />
     <Compile Include="AppDBContext\SampleDataSeeder.cs" />
     <Compile Include="AppDBContext\MockSQLContext.cs" />
-    <Compile Include="Models\AppEntity.cs" />
-    <Compile Include="Models\DevApp.cs" />
-    <Compile Include="Models\Developer.cs" />
-    <Compile Include="Models\EntityField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Utils\Constants.cs" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -75,6 +70,12 @@
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\DBModels\DBModels.csproj">
+      <Project>{153d4007-e232-4eb6-a154-e0d3d42ae6c7}</Project>
+      <Name>DBModels</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

@@ -5,11 +5,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{F5BC57DB-E6EE-4C8B-879A-8EE3DF80DC68}</ProjectGuid>
+    <ProjectGuid>{153D4007-E232-4EB6-A154-E0D3D42AE6C7}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DataInteractionLayer</RootNamespace>
-    <AssemblyName>DataInteractionLayer</AssemblyName>
+    <RootNamespace>DBModels</RootNamespace>
+    <AssemblyName>DBModels</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -51,25 +51,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="ModelConstants.cs" />
+    <Compile Include="Models\AppEntity.cs" />
+    <Compile Include="Models\DevApp.cs" />
+    <Compile Include="Models\Developer.cs" />
+    <Compile Include="Models\EntityField.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Repository\DBRepository.cs" />
-    <Compile Include="UnitofWork\UnitOfWork.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\DBLib\DataAccessLayer.csproj">
-      <Project>{9933298b-4c47-4c2d-a768-2dec4590c8ab}</Project>
-      <Name>DataAccessLayer</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\DBModels\DBModels.csproj">
-      <Project>{153d4007-e232-4eb6-a154-e0d3d42ae6c7}</Project>
-      <Name>DBModels</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

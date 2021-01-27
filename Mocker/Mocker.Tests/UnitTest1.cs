@@ -1,5 +1,4 @@
-﻿using DBLib.Models;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
 using Mocker.Controllers;
 using Mocker.Tests.Utility;
 using System;

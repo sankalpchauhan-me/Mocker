@@ -205,9 +205,13 @@
       <Project>{f5bc57db-e6ee-4c8b-879a-8ee3df80dc68}</Project>
       <Name>DataInteractionLayer</Name>
     </ProjectReference>
-    <ProjectReference Include="..\DBLib\DBLib.csproj">
+    <ProjectReference Include="..\DBLib\DataAccessLayer.csproj">
       <Project>{9933298b-4c47-4c2d-a768-2dec4590c8ab}</Project>
-      <Name>DBLib</Name>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBModels\DBModels.csproj">
+      <Project>{153d4007-e232-4eb6-a154-e0d3d42ae6c7}</Project>
+      <Name>DBModels</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>

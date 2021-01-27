@@ -75,9 +75,13 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\DBLib\DBLib.csproj">
+    <ProjectReference Include="..\DBLib\DataAccessLayer.csproj">
       <Project>{9933298b-4c47-4c2d-a768-2dec4590c8ab}</Project>
-      <Name>DBLib</Name>
+      <Name>DataAccessLayer</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\DBModels\DBModels.csproj">
+      <Project>{153d4007-e232-4eb6-a154-e0d3d42ae6c7}</Project>
+      <Name>DBModels</Name>
     </ProjectReference>
     <ProjectReference Include="..\Mocker\Mocker.csproj">
       <Project>{9d9b2497-26d9-4213-a6ca-c0c1d7aaa3a9}</Project>

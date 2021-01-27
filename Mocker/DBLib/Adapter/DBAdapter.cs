@@ -1,4 +1,4 @@
-﻿using DBLib.Models;
+﻿using DBModels.Models;
 using System.Data.Entity;
 
 namespace DBLib.Adapter
