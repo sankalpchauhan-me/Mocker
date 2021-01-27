@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Mocker.Utils
+﻿namespace Mocker.Utils
 {
     public static class Constants
     {
@@ -12,8 +7,8 @@ namespace Mocker.Utils
         public const string APP_ROUTE_PREFIX = "api";
         public const string APP_ENTITY_ROUTE_PREFIX = "api";
         public const string APP_FIELD_ROUTE_PREFIX = "api";
-        public const string MAIN_ROUTE_PREFIX = "api/main";
-        public const string DEFAULT_ROUTE = "";
+        public const string MAIN_ROUTE_PREFIX = "api";
+        public const string DEFAULT_ROUTE = "main";
         public const string REGISTER_ROUTE = "register";
         public const string GET_DEVELOPER_BY_ID = "GetDeveloperById";
         public const string CONN_STRING = "MockSQLContext";

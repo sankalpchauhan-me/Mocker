@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using DBModels.Attributes;
 
 namespace DBModels.Models
 {
@@ -27,6 +28,7 @@ namespace DBModels.Models
         /// Getter and Setter for Feild Type
         /// </summary>
         [Required]
+        [DataTypeValidation("byte", "char", "short", "int", "long", "float", "double", "char", "string", "decimal", "bool", "DateTime")]
         public string FieldType { get; set; }
 
         /// <summary>

@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace MockLogic
 {
-    public class Class1
+    public interface ILanguageRef
     {
+        string Language { get; set; }
     }
 }

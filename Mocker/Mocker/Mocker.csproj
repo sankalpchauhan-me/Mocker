@@ -213,6 +213,10 @@
       <Project>{153d4007-e232-4eb6-a154-e0d3d42ae6c7}</Project>
       <Name>DBModels</Name>
     </ProjectReference>
+    <ProjectReference Include="..\MockLogic\MockLogic.csproj">
+      <Project>{068d161c-caa5-47a9-85fb-9f79ad965a6c}</Project>
+      <Name>MockLogic</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

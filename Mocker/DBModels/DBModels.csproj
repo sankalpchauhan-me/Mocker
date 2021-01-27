@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes\DataTypeValidationAttribute.cs" />
     <Compile Include="ModelConstants.cs" />
     <Compile Include="Models\AppEntity.cs" />
     <Compile Include="Models\DevApp.cs" />
